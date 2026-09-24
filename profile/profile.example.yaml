@@ -35,14 +35,15 @@ graduation:
 
 preferences:
   # 岗位方向偏好（越靠前权重越高）。可选值见 config/archetypes.yaml
+  # 越靠前打分越高（主线金融科技、副线量化开发；见 docs/STRATEGY.md）
   archetype_priority:
-    - quant_dev
-    - trading_systems
     - fintech_swe
     - investment_analytics
-    - quant_research
+    - quant_dev
     - risk_data
     - marketplace_econ
+    - quant_research
+    - trading_systems
   include_internships: false            # 如果还能/想找实习，改成 true
 
 application_answers:

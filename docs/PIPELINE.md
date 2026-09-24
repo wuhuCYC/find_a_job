@@ -78,4 +78,6 @@ profile/experience_bank.yaml ─────────────────
 六个页面：总览（匹配度、量化 vs 金融科技、招聘窗口）、职位（筛选、分数分布、打分分解、操作）、
 公司地图（LA / 橙县示意地图 + 卡片）、简历版本（30 条素材 × 7 个方向热力图）、技能差距、签证（个人 OPT 时间线）。
 
-部署到服务器：`deploy/`（systemd 服务 + 每天两次抓取的 timer + nginx 密码保护）。服务器模式（`--server`）会关掉浏览器预填。
+部署到服务器：`deploy/`（systemd 服务 + 每天两次抓取的 timer + nginx 密码保护）。服务器模式（`--server`）会关掉浏览器预填；
+`--no-tailor` / `JOBHUNT_TAILOR=0` 关掉网页定制简历（国内服务器调不了 Claude API）。
+当前方案挂在 SaaS 那台 VPS 的 `/jobs/` 子路径，一条命令部署：`bash deploy/deploy_vps.sh`（见 [deploy/README.md](../deploy/README.md)）。

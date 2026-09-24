@@ -91,9 +91,12 @@ def personal_timeline(profile: dict) -> dict | None:
     ]
     if filed:
         events.append({"date": filed.isoformat(), "kind": "done", "note": "已提交 I-765（OPT）"})
-    events.append({"date": deadline.isoformat(), "kind": "deadline",
-                   "note": "OPT 提交截止 + 60 天宽限期结束；EAD 开始日最晚只能选到这天"
-                           + ("" if filed else "（还没记录提交日期）")})
+    if filed:
+        events.append({"date": deadline.isoformat(), "kind": "info",
+                       "note": "60 天宽限期的最后一天（OPT 已提交）；申请的 EAD 开始日最晚只能是这天"})
+    else:
+        events.append({"date": deadline.isoformat(), "kind": "deadline",
+                       "note": "OPT 提交截止 + 60 天宽限期结束；EAD 开始日最晚只能选到这天（还没记录提交日期）"})
     if ead:
         events.append({"date": ead.isoformat(), "kind": "ead", "note": "EAD 开始：可以合法工作，90 天失业计时从这天算"})
         events.append({"date": (ead + timedelta(days=90)).isoformat(), "kind": "deadline",
@@ -103,7 +106,8 @@ def personal_timeline(profile: dict) -> dict | None:
     else:
         latest = deadline + timedelta(days=90)
         events.append({"date": latest.isoformat(), "kind": "info",
-                       "note": "参考：如果 EAD 从最晚的日子开始，90 天失业上限最晚用到这天（拿到卡后在 profile 填 ead_start_date）"})
+                       "note": f"参考：如果 EAD 从 {deadline.isoformat()} 开始，90 天失业上限用到这天；"
+                               "批准得更晚的话 EAD 从批准日开始，这个日子也往后推（拿到卡后在 profile 填 ead_start_date）"})
     lottery_year = end.year if end.month < 3 else end.year + 1
     events.append({"date": f"{lottery_year}-03-10", "kind": "info",
                    "note": "H-1B 抽签注册（大约 3 月），需要雇主在这之前愿意为你注册"})

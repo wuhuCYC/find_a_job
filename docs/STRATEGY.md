@@ -10,9 +10,12 @@
 你最值钱的不是「会写 Python」，而是**把交易研究工程化**：数据管道 → 信号 → 带成本的回测 → 参数搜索 → 实时监控 → 上线给用户用。
 在 LA / Irvine，这个能力最对口的是：
 
-1. **资管公司的量化开发 / 投资数据工程**：PIMCO、Capital Group、Pacific Life、Research Affiliates（都在 Newport Beach / Irvine / LA）
-2. **金融科技后端**：Acorns、Experian、Zest AI、Tala、PennyMac（Irvine / Costa Mesa / Burbank / Santa Monica / Westlake Village）
-3. **冲刺目标**：Crabel（LA 唯一的系统化交易公司）、湾区的 Voleon / Headlands。纯量化研究和高频交易系统目前差在**统计严谨性的呈现**和 **C++**
+1. **金融科技后端（主线）**：Acorns、Experian、Zest AI、Tala、PennyMac（Irvine / Costa Mesa / Burbank / Santa Monica / Westlake Village），加上远程岗
+2. **资管公司的技术岗 / 投资数据工程**：PIMCO、Capital Group、Pacific Life、Research Affiliates（Newport Beach / Irvine / LA）—— 做工程，但离市场和量化最近
+3. **量化开发（副线，精投）**：同一批资管公司的量化开发岗；**冲刺**：Crabel（LA 唯一的系统化交易公司）、湾区的 Voleon / Headlands。纯量化研究和高频交易系统目前差在**统计严谨性的呈现**和 **C++**
+
+> **你的选择（2026-09-24）**：主线金融科技，副线量化开发。理由：岗位多、远程多、签证担保更常见，SaaS 的 100+ 付费用户是现在最硬的证据；
+> 量化兴趣不放弃，用研究作品持续积累（见 1.6 节）。
 
 ---
 
@@ -61,21 +64,53 @@
 
 **建议**：OPT 的失业计时从 EAD 开始日算起，所以两条线并行 —— 金融科技和资管技术岗先拿到工作、赶上下一次 H-1B 抽签；量化方向靠研究报告等作品持续积累。从资管技术岗内部转量化开发是很常见的路径。
 
+
+---
+
+## 1.6 量化团队是怎么「跑」的？你能不能做
+
+一条完整的量化流水线（各家叫法不同，环节差不多）：
+
+| 环节 | 做什么 | 主要谁做 | 你做过的对应部分 |
+|---|---|---|---|
+| 1. 数据 | 采集、清洗、对齐行情 / 基本面 / 另类数据；按「当时能看到什么」存（point-in-time），防前视 | 量化开发、数据工程 | CS2 三年价格和盘口数据；A 股增量 Parquet 缓存 |
+| 2. 研究 | 提出假设 → 做成信号 → 统计检验（IC、t 值、分组收益） | 量化研究员 | 事件研究 + 安慰剂对照 |
+| 3. 回测 | 带手续费、滑点、成交规则的历史模拟；样本外验证 | 研究员用，开发搭框架 | 事件驱动回测、walk-forward |
+| 4. 组合与风控 | 把多个信号合成仓位；控制风险暴露、杠杆、换手 | 研究员、风控 | A 股回测里的仓位上限 |
+| 5. 执行 | 下单算法，降低冲击成本 | 交易 / 执行团队 | —— |
+| 6. 监控 | 实盘和回测对比、信号衰减、系统告警 | 开发 + 研究 | 实时监控、多渠道推送、信号收益回填 |
+
+新人进去通常做什么：
+
+- **量化开发**：维护数据管道和回测框架，把研究员的原型代码变成每天稳定运行的生产系统，写测试、查数据问题。工程为主，和金融科技后端的技能重叠最多。
+- **量化研究**：在现成框架上负责一个小方向的信号研究，写研究报告，由资深研究员审。统计为主，顶级公司多招 PhD。
+
+**你能做吗？** 量化开发能做：上面第 1、3、6 步你已经完整做过一遍，这正是量化开发的日常。
+差距是部分岗位要的 C++、PIMCO 要的固收知识，以及面试里的概率统计题。量化研究现在比较难：要拿出看得见的统计严谨性（一份研究报告），还要和 PhD 竞争。
+
+**副线怎么走**：
+
+1. 每周固定一段业余时间做研究报告（[SKILL_GAP_PLAN.md](./SKILL_GAP_PLAN.md) 项目 3），用美股或加密的公开数据
+2. 刷概率题（绿皮书）—— 量化面试的第一关
+3. 只精投资管公司的量化开发 / 量化工程岗，不海投
+4. 先进金融科技或资管技术岗，再内部转量化开发，是很常见的路径
+5. 进了金融公司通常有个人交易规定（预先审批、最短持有期），研究可以继续做，实盘要按公司规定来
+
 ---
 
 ## 2. 岗位方向匹配度（从高到低）
 
 | 方向 | 匹配度 | 典型职位名 | LA/OC 代表雇主 | 加州新人 base（调研值） | 最大差距 |
 |---|---|---|---|---|---|
+| 金融科技后端 | ★★★★ | Software Engineer I, Backend Engineer, SDE | Acorns, Experian, PennyMac, Zest AI, Tala, Dave | 约 $90–160K | Java/Postgres、支付/账本正确性、系统设计面试 |
 | 量化开发 / 研究工程师 | ★★★★ | Quantitative Developer, Quant Engineer, Research Engineer | PIMCO, Capital Group, Research Affiliates, Crabel | 资管约 $120–195K；湾区基金 $160–190K | C++、固收知识、很多岗要 3 年经验 |
 | 资管投资数据 / 组合分析工程 | ★★★★ | Investment Data Engineer, Portfolio Analytics, Technology Analyst | Capital Group, PIMCO, Pacific Life, TCW | 约 $110–150K | 业绩归因、风险模型、固收术语；云数据栈 |
-| 金融科技后端 | ★★★★ | Software Engineer I, Backend Engineer, SDE | Acorns, Experian, PennyMac, Zest AI, Tala, Dave | 约 $90–160K | Java/Postgres、支付/账本正确性、系统设计面试 |
 | 信贷风控 / 数据科学 | ★★★ | Credit Risk Analyst, Data Scientist, ML Engineer | Experian, Zest AI, Hyundai Capital, Tala, PennyMac | 约 $100–150K | 信贷领域知识（评分卡、WoE/IV、PSI）、SQL 作品 |
 | 预测市场 / 加密 / 定价 | ★★★（故事最契合） | Quant Analyst (Prediction Markets), Trading Engineer | 基本不在 LA（NYC / 远程） | AQR 预测市场分析师 $200–230K（在 CT） | 概率校准、做市理论；地点不匹配 |
 | 量化研究 | ★★～★★★ | Quantitative Researcher / Analyst | PIMCO QRA, Research Affiliates, Pacific Life | $95–215K（顶级基金 $225–300K 但不在加州） | 看得见的统计严谨性、研究报告、和 PhD 竞争 |
 | 交易系统 / 低延迟 | ★～★★（C++ 岗）/ ★★★（Java 岗） | Trading Systems Engineer, Low-latency Developer | 南加州很少；Java 路线：PIMCO 交易技术 | 芝加哥/纽约 $200–300K | C++、网络/并发、FIX / 行情接入 |
 
-> 我的建议：**主攻前三行**（量化开发、资管数据、金融科技后端），它们都在 Irvine / Newport Beach / LA，而且互相可以用同一套素材；**量化研究和预测市场作为冲刺**；交易系统等补了 Java/C++ 作品再考虑。
+> 按你的选择（2026-09-24）：**主线是金融科技后端 + 资管数据 / 技术岗**（都在 Irvine / Newport Beach / LA，也有很多远程），**量化开发作为副线精投**，用同一套素材换讲法；**量化研究和预测市场作为冲刺**；交易系统等补了 Java/C++ 作品再考虑。
 
 ---
 
@@ -163,12 +198,12 @@
 ## 7. 我还需要你告诉我的信息（按重要性）
 
 已确认（2026-09-24）：可以接受远程；卖点 SaaS 有 100+ 付费用户（每月 ¥100）；用过 Docker、没用过 AWS；
-签证和毕业日期已记在本地 `private/profile.yaml`（不进 git）。
+方向选定为**主线金融科技、副线量化开发**；签证进展和日期记在本地 `private/profile.yaml`（不进 git）。
 
 还需要：
 
 1. **你现在的简历**，以及有没有**实习 / 工作经历**、本科学校、GPA（有真实雇主的经历权重最高）
-2. OPT 的 **I-765 提交日期**和你选的 **EAD 开始日期**（网站据此算 90 天失业计时）
+2. I-20 上 OPT 推荐写的**开始日期**（EAD 从这天或批准日里较晚的那天开始）；拿到 EAD 卡后告诉我卡上的开始日
 3. EECS 215 项目里**你具体负责哪部分**
-4. 更想先走量化还是金融科技（区别见 1.5 节）
+4. 部署到服务器后 `bash deploy/deploy_vps.sh check` 的结果（国内服务器能连上哪些招聘接口）
 5. 愿不愿意把部分项目**公开到 GitHub**（需要先清理 token，见 [PROJECT_PACKAGING.md](./PROJECT_PACKAGING.md) 最后一节）

@@ -7,22 +7,9 @@
 as_of: 2026-09-24
 thesis: 把交易研究工程化：数据管道 → 带成本的回测 → 参数搜索 → 实时监控 → 上线给用户用
 
-# 岗位方向匹配度（1-5，区间表示取决于具体公司/岗位）
+# 岗位方向匹配度（1-5，区间表示取决于具体公司/岗位）。
+# 顺序 = 你的选择（2026-09-24）：主线金融科技，资管技术岗是离量化最近的工程岗，量化开发是副线
 directions:
-  - key: quant_dev
-    fit: [4, 4]
-    stance: 主攻
-    titles: Quantitative Developer · Quant Engineer · Research Engineer
-    employers: PIMCO · Capital Group · Research Affiliates · Crabel
-    base: $120–195K
-    gap: C++、固收知识、很多岗要 3 年经验
-  - key: investment_analytics
-    fit: [4, 4]
-    stance: 主攻
-    titles: Investment Data Engineer · Portfolio Analytics · Technology Analyst
-    employers: Capital Group · PIMCO · Pacific Life · TCW
-    base: $110–150K
-    gap: 业绩归因、风险模型、固收术语；云数据栈
   - key: fintech_swe
     fit: [4, 4]
     stance: 主攻
@@ -30,6 +17,13 @@ directions:
     employers: Acorns · Experian · PennyMac · Zest AI · Tala
     base: $90–160K
     gap: Java/Postgres 作品、账本与幂等、系统设计面试
+  - key: investment_analytics
+    fit: [4, 4]
+    stance: 主攻
+    titles: Investment Data Engineer · Portfolio Analytics · Technology Analyst
+    employers: Capital Group · PIMCO · Pacific Life · TCW
+    base: $110–150K
+    gap: 业绩归因、风险模型、固收术语；云数据栈
   - key: risk_data
     fit: [3, 3]
     stance: 可投
@@ -37,6 +31,13 @@ directions:
     employers: Experian · Zest AI · Hyundai Capital · Tala · PennyMac
     base: $100–150K
     gap: 信贷领域知识（评分卡、WoE/IV、PSI）
+  - key: quant_dev
+    fit: [4, 4]
+    stance: 副线
+    titles: Quantitative Developer · Quant Engineer · Research Engineer
+    employers: PIMCO · Capital Group · Research Affiliates · Crabel
+    base: $120–195K
+    gap: C++、固收知识、很多岗要 3 年经验
   - key: marketplace_econ
     fit: [3, 3]
     stance: 可投
@@ -58,6 +59,7 @@ directions:
     employers: 南加州很少；Java 路线：PIMCO 交易技术
     base: 芝加哥/纽约 $200–300K
     gap: C++、并发与网络、FIX / 行情接入
+
 
 # 招聘窗口（2027 年入职）。日期是大致月份，用来看节奏，不是截止日
 hiring:
@@ -91,18 +93,18 @@ hiring:
         - {date: 2027-03-10, note: FY2028 注册（3 月）}
 
 next_steps:
-  - 先把 OPT 交上去：I-765 必须在项目结束后 60 天内提交（日期见网站「签证」页的个人时间线）
-  - 马上投：南加州资管的具体职位、仍开放的应届 / 初级岗位、远程的金融科技岗
+  - OPT 交上去之后：保存收据通知（I-797C）上的案件号，在 USCIS 网站查进度；批准、拿到 EAD 卡之前不能开始工作
+  - 主线马上投：Acorns、Experian、PennyMac、Zest AI、Tala 和远程的金融科技后端岗；资管的 SDE / 投资数据工程岗一起投
+  - 副线量化：固定每周的业余时间做研究报告（补强作品第 3 个），只精投资管的量化开发岗
   - 每天手写代码不用 AI（LeetCode + 重写自己系统的核心模块），把面试手感练回来
-  - 在 Mac 上跑 python -m jobhunt check 和 run，修正待验证的招聘接口配置
+  - 部署到 VPS 后跑 bash deploy/deploy_vps.sh check，看国内服务器能连上哪些招聘接口
   - 找 UCI 校友内推：PIMCO、Capital Group、Experian、Pacific Life
   - 轮换私有仓库里泄露的 token；把本仓库改成 private
 
 questions:
   - 现有简历：实习 / 工作经历、本科学校、GPA
-  - OPT 的 I-765 提交日期和你选的 EAD 开始日期
+  - I-20 上 OPT 推荐（Employment Authorizations 一栏）写的开始日期：EAD 从这天或批准日里较晚的那天开始
   - EECS 215 项目里你负责的部分
-  - 更想先走量化还是金融科技（区别见下方对比）
 
 # 量化 vs 金融科技（回答 2026-09-24 的提问）
 quant_vs_fintech:
@@ -117,6 +119,7 @@ quant_vs_fintech:
     - {label: 机会, quant: 名额少、门槛高；顶级公司集中在纽约 / 芝加哥，远程少, fintech: 岗位多、远程多、签证担保更常见}
     - {label: 对你, quant: 最贴近你的兴趣（投机、博弈）；回测和事件研究是直接相关的证据, fintech: 你已经有 100+ 付费用户的产品，这是现在最硬的证据}
   middle: 中间地带是资管公司的技术岗（PIMCO / Capital Group 的 SDE、投资数据工程）、交易平台（Robinhood、Coinbase）和信贷风控建模：做的是工程，但天天和市场数据、交易打交道。
+  decision: 你的选择（2026-09-24）：主线金融科技，副线量化开发。
   advice: OPT 的失业计时从 EAD 开始日算起，所以建议两条线并行：金融科技和资管技术岗先拿到工作，赶上 H-1B 抽签；量化方向靠研究报告等作品持续积累。从资管技术岗内部转量化开发，是很常见的路径。
 
 # 各方向的硬要求 vs 你现在（have: yes / partial / no）
@@ -163,20 +166,20 @@ requirements:
     - {item: 价格周期与异常量识别, have: "yes"}
     - {item: 实验设计 / A-B 测试, have: "no"}
 
-# 补强作品（按优先级）
+# 补强作品（按优先级；2026-09-24 按「主线金融科技、副线量化」重排）
 portfolio:
-  - title: 严谨的研究报告
-    summary: 用公开数据（美股 / 加密）重跑信号框架：nested walk-forward、成本、试了多少组参数、deflated Sharpe、因子调整后 alpha、失败的信号
-    helps: [quant_dev, quant_research, investment_analytics]
-  - title: Java 限价订单簿 + 撮合引擎
-    summary: 价格-时间优先、部分成交、行情回放；JMH 基准与延迟分位数
-    helps: [trading_systems, quant_dev, fintech_swe]
-  - title: 信贷评分卡
-    summary: 公开贷款数据；评分卡 vs GBM、跨时间验证、PSI、SHAP 理由码、公平性检验
-    helps: [risk_data]
   - title: SaaS 金融级升级
     summary: Postgres 迁移、Docker、CI；复式账本 + 幂等 API + 日终对账；部署到 AWS
     helps: [fintech_swe, investment_analytics]
+  - title: Java 限价订单簿 + 撮合引擎
+    summary: 价格-时间优先、部分成交、行情回放；JMH 基准与延迟分位数
+    helps: [trading_systems, quant_dev, fintech_swe]
+  - title: 严谨的研究报告
+    summary: 用公开数据（美股 / 加密）重跑信号框架：nested walk-forward、成本、试了多少组参数、deflated Sharpe、因子调整后 alpha、失败的信号
+    helps: [quant_dev, quant_research, investment_analytics]
+  - title: 信贷评分卡
+    summary: 公开贷款数据；评分卡 vs GBM、跨时间验证、PSI、SHAP 理由码、公平性检验
+    helps: [risk_data]
   - title: 固收小工具库
     summary: 收益率曲线 bootstrap、久期 / 凸性、关键利率久期
     helps: [investment_analytics, quant_dev]

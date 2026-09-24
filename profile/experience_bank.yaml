@@ -84,7 +84,7 @@ skills:
   - {name: Git, level: proficient, group: Infra & Tools}
   - {name: pytest, level: proficient, group: Infra & Tools}
   - {name: Docker, level: working, group: Infra & Tools}
-  - {name: AWS, level: none, group: Infra & Tools}             # 没用过，正在补（见 SKILL_GAP_PLAN 项目 4）
+  - {name: AWS, level: none, group: Infra & Tools}             # 没用过，正在补（见 SKILL_GAP_PLAN 项目 1）
   - {name: LLM APIs, level: proficient, group: Infra & Tools}  # Claude / GLM-4V 视觉接口
   - {name: Claude Code, level: expert, group: Infra & Tools}
 

@@ -45,6 +45,10 @@ def test_personal_timeline_opt_math():
                                                    "ead_start_date": "2026-08-01"}})
     assert t2["filed"] == "2026-07-01" and t2["ead_start"] == "2026-08-01"
     assert any(e["date"] == "2026-10-30" and e["kind"] == "deadline" for e in t2["events"])   # EAD + 90 天
+    grace = [e for e in t2["events"] if e["date"] == "2026-08-11"]
+    assert grace and grace[0]["kind"] == "info"                         # 已提交：宽限期结束不再是「截止」
+    t3 = personal_timeline({"work_authorization": {"program_end_date": "2026-06-12", "ead_start_date": ""}})
+    assert t3["ead_start"] is None and any(e["date"] == "2026-08-11" and e["kind"] == "deadline" for e in t3["events"])
     assert personal_timeline({"work_authorization": {"program_end_date": "TODO"}}) is None
     assert personal_timeline({}) is None
 
@@ -194,3 +198,105 @@ def test_exported_site_renders_without_errors(tmp_path, monkeypatch):
         assert "null" not in page.inner_text("#view-companies")
         browser.close()
     assert errors == []
+
+
+def test_server_tailor_switch(server, monkeypatch, tmp_path):
+    base, job = server
+    assert json.loads(_req(base + "/api/data")[1])["can_tailor"] is True
+
+    srv = make_server(port=0, server_mode=True, tailor_enabled=False)
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    try:
+        url = f"http://127.0.0.1:{srv.server_address[1]}"
+        assert json.loads(_req(url + "/api/data")[1])["can_tailor"] is False
+        status, body = _req(url + "/api/tailor", {"uid": job.uid}, {"Content-Type": "application/json", "X-Jobhunt": "1"})
+        assert status == 400 and "jobhunt tailor" in json.loads(body)["error"]
+    finally:
+        srv.shutdown()
+        srv.server_close()
+
+
+def test_frontend_uses_relative_urls():
+    """部署在 nginx 的 /jobs/ 子路径下时，前端请求必须是相对路径。"""
+    static = config.ROOT / "jobhunt" / "web" / "static"
+    js = (static / "app.js").read_text(encoding="utf-8")
+    assert "'/api/" not in js and '"/api/' not in js and "'/files/" not in js
+    page = (static / "page.html").read_text(encoding="utf-8")
+    assert 'href="app.css"' in page and 'src="app.js"' in page
+
+
+# ---------------------------------------------------------------- 子路径 + 服务器模式的浏览器测试
+def _prefix_proxy(upstream: str, prefix: str = "/jobs"):
+    """模拟 nginx：location ^~ /jobs/ { proxy_pass http://127.0.0.1:8765/; proxy_set_header Host 127.0.0.1; }"""
+    from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+
+    class Proxy(BaseHTTPRequestHandler):
+        def log_message(self, *args):
+            pass
+
+        def _forward(self):
+            if not self.path.startswith(prefix + "/"):
+                self.send_response(404)
+                self.end_headers()
+                return
+            length = int(self.headers.get("Content-Length") or 0)
+            body = self.rfile.read(length) if length else None
+            headers = {k: v for k, v in self.headers.items() if k.lower() in ("content-type", "x-jobhunt")}
+            headers["Host"] = "127.0.0.1"
+            req = urllib.request.Request(upstream + self.path[len(prefix):], data=body, headers=headers, method=self.command)
+            try:
+                with urllib.request.urlopen(req, timeout=10) as r:
+                    status, data, ctype = r.status, r.read(), r.headers.get("Content-Type", "")
+            except urllib.error.HTTPError as e:
+                status, data, ctype = e.code, e.read(), e.headers.get("Content-Type", "")
+            self.send_response(status)
+            self.send_header("Content-Type", ctype)
+            self.send_header("Content-Length", str(len(data)))
+            self.end_headers()
+            self.wfile.write(data)
+
+        do_GET = do_POST = _forward
+
+    proxy = ThreadingHTTPServer(("127.0.0.1", 0), Proxy)
+    threading.Thread(target=proxy.serve_forever, daemon=True).start()
+    return proxy
+
+
+def test_live_site_under_subpath(server):
+    sync_api = pytest.importorskip("playwright.sync_api")
+    base, job = server
+    # server 夹具是服务器模式；这里再开一个关闭定制简历的实例，模拟国内 VPS
+    srv = make_server(port=0, server_mode=True, tailor_enabled=False)
+    threading.Thread(target=srv.serve_forever, daemon=True).start()
+    proxy = _prefix_proxy(f"http://127.0.0.1:{srv.server_address[1]}")
+    exe = os.environ.get("JOBHUNT_BROWSER_PATH") or ("/opt/pw-browsers/chromium" if os.path.exists("/opt/pw-browsers/chromium") else None)
+    errors, failed = [], []
+    try:
+        with sync_api.sync_playwright() as p:
+            try:
+                browser = p.chromium.launch(executable_path=exe) if exe else p.chromium.launch()
+            except Exception as exc:  # noqa: BLE001
+                pytest.skip(f"浏览器不可用：{exc}")
+            page = browser.new_page(viewport={"width": 1200, "height": 900})
+            page.on("pageerror", lambda e: errors.append(str(e)))
+            page.on("response", lambda r: failed.append(r.url) if r.status >= 400 and "127.0.0.1" in r.url else None)
+            page.goto(f"http://127.0.0.1:{proxy.server_address[1]}/jobs/")
+            page.click("#tab-jobs")
+            page.click("#job-results tbody tr")
+            drawer = page.locator("#drawer")
+            assert drawer.is_visible()
+            assert "python -m jobhunt tailor" in drawer.locator(".cmd-hint").inner_text()
+            assert drawer.get_by_role("button", name="定制简历").count() == 0
+            assert drawer.get_by_role("button", name="打开申请页并预填").count() == 0
+            drawer.get_by_role("button", name="想投").click()
+            page.wait_for_function("() => /→|失败/.test(document.querySelector('#toast').textContent)")
+            assert "失败" not in page.inner_text("#toast")
+            browser.close()
+    finally:
+        proxy.shutdown()
+        proxy.server_close()
+        srv.shutdown()
+        srv.server_close()
+    assert errors == [] and failed == []
+    data = json.loads(_req(base + "/api/data")[1])
+    assert data["jobs"][0]["status"] == "shortlisted"

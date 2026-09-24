@@ -1,16 +1,26 @@
 # 网站服务：只监听 127.0.0.1:8765，由 nginx 反代（带密码）对外
+# 和同机的其他服务隔离：独立用户 jobhunt，只能写 data/ 和 output/
 [Unit]
-Description=钱途求职台 (jobhunt web)
+Description=find_a_job web (jobhunt)
 After=network-online.target
+Wants=network-online.target
 
 [Service]
-User=deploy
+User=jobhunt
+Group=jobhunt
 WorkingDirectory=/opt/find_a_job
+Environment=XDG_CACHE_HOME=/opt/find_a_job/data/.cache
+# .env 里可以写 JOBHUNT_TAILOR=0（关闭网页定制简历）或 ANTHROPIC_API_KEY
 EnvironmentFile=-/opt/find_a_job/.env
-# 把 jobs.example.com 换成你的域名
-ExecStart=/opt/find_a_job/.venv/bin/python -m jobhunt web --server --allow-host jobs.example.com --port 8765
+ExecStart=/opt/find_a_job/venv/bin/python -m jobhunt web --server --port 8765
 Restart=on-failure
 RestartSec=5
+MemoryMax=600M
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/opt/find_a_job/data /opt/find_a_job/output
 
 [Install]
 WantedBy=multi-user.target

@@ -89,8 +89,10 @@ def safe_output_path(rel: str) -> Path | None:
     return target
 
 
-def make_handler(tasks: Tasks, allowed_hosts: set[str] | None = None, server_mode: bool = False):
-    """server_mode：部署在服务器上时关闭「打开浏览器预填」（服务器上没有你的浏览器）。"""
+def make_handler(tasks: Tasks, allowed_hosts: set[str] | None = None, server_mode: bool = False,
+                 tailor_enabled: bool = True):
+    """server_mode：部署在服务器上时关闭「打开浏览器预填」（服务器上没有你的浏览器）。
+    tailor_enabled=False：服务器调不了 Claude API（例如在中国大陆）时关闭「定制简历」。"""
     page_cache: dict[str, str] = {}
     hosts = LOCAL_HOSTS | {h.lower() for h in (allowed_hosts or set())}
 
@@ -139,6 +141,7 @@ def make_handler(tasks: Tasks, allowed_hosts: set[str] | None = None, server_mod
             if path == "/api/data":
                 payload = build_payload(mode="live")
                 payload["can_apply"] = not server_mode
+                payload["can_tailor"] = tailor_enabled
                 return self._json(payload)
             if path == "/api/job":
                 uid = (query.get("uid") or [""])[0]
@@ -213,6 +216,8 @@ def make_handler(tasks: Tasks, allowed_hosts: set[str] | None = None, server_mod
         def _post_tailor(self, body):
             from ..actions import tailor_job
 
+            if not tailor_enabled:
+                return self._error(400, "这台服务器关闭了定制简历（调不了 Claude API），请在自己电脑上运行 python -m jobhunt tailor <uid>")
             job = self._job_or_error(body.get("uid"))
             if not job:
                 return None
@@ -289,15 +294,16 @@ def make_handler(tasks: Tasks, allowed_hosts: set[str] | None = None, server_mod
 
 
 def make_server(port: int = 8765, host: str = "127.0.0.1", allowed_hosts: set[str] | None = None,
-                server_mode: bool = False) -> ThreadingHTTPServer:
-    return ThreadingHTTPServer((host, port), make_handler(Tasks(), allowed_hosts, server_mode))
+                server_mode: bool = False, tailor_enabled: bool = True) -> ThreadingHTTPServer:
+    return ThreadingHTTPServer((host, port), make_handler(Tasks(), allowed_hosts, server_mode, tailor_enabled))
 
 
 def serve(port: int = 8765, open_browser: bool = True, allowed_hosts: set[str] | None = None,
-          server_mode: bool = False) -> None:
-    server = make_server(port, allowed_hosts=allowed_hosts, server_mode=server_mode)
+          server_mode: bool = False, tailor_enabled: bool = True) -> None:
+    server = make_server(port, allowed_hosts=allowed_hosts, server_mode=server_mode, tailor_enabled=tailor_enabled)
     url = f"http://127.0.0.1:{server.server_address[1]}/"
-    print(f"钱途求职台已启动：{url}（Ctrl+C 退出）" + ("  [服务器模式]" if server_mode else ""))
+    mode = ("  [服务器模式]" if server_mode else "") + ("" if tailor_enabled else "  [定制简历已关闭]")
+    print(f"钱途求职台已启动：{url}（Ctrl+C 退出）{mode}")
     if open_browser and not server_mode:
         threading.Timer(0.6, lambda: webbrowser.open(url)).start()
     try:

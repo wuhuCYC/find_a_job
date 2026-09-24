@@ -15,7 +15,7 @@ python -m jobhunt web --export site.html     # 导出单文件快照（只读，
 ```
 
 - 本地版可以直接在网页上改投递状态、定制简历、打开申请页预填、一键抓取最新职位。
-- 部署到服务器（每天自动抓两次、手机随时看）：见 [deploy/README.md](deploy/README.md)。
+- 部署到服务器（每天自动抓两次、手机随时看）：在 Mac 上运行 `bash deploy/deploy_vps.sh`，挂在 SaaS 那台 VPS 的 `/jobs/` 下，详见 [deploy/README.md](deploy/README.md)。
 
 ## 先读这些
 
@@ -64,7 +64,7 @@ python -m jobhunt status <uid> interview --note "一面：回测系统深挖"
 ## 测试
 
 ```bash
-python -m pytest        # 110 个测试：解析、地点、职级、打分、防编造守卫、简历渲染、浏览器预填、网站
+python -m pytest        # 126 个测试：解析、地点、职级、打分、防编造守卫、简历渲染、浏览器预填、网站、部署脚本
 ```
 
 ## 隐私

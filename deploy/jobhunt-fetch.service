@@ -1,11 +1,22 @@
 # 定时抓取 + 打分（由 jobhunt-fetch.timer 触发）
 [Unit]
-Description=jobhunt fetch + score
+Description=find_a_job fetch + score
 After=network-online.target
+Wants=network-online.target
 
 [Service]
 Type=oneshot
-User=deploy
+User=jobhunt
+Group=jobhunt
 WorkingDirectory=/opt/find_a_job
+Environment=XDG_CACHE_HOME=/opt/find_a_job/data/.cache
 EnvironmentFile=-/opt/find_a_job/.env
-ExecStart=/opt/find_a_job/.venv/bin/python -m jobhunt run
+ExecStart=/opt/find_a_job/venv/bin/python -m jobhunt run
+TimeoutStartSec=45min
+Nice=10
+MemoryMax=600M
+NoNewPrivileges=true
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/opt/find_a_job/data /opt/find_a_job/output

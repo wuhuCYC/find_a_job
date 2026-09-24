@@ -26,6 +26,7 @@ python -m jobhunt base               # 生成各方向基础简历 → output/ba
 python -m jobhunt run                # fetch + score + 导出 output/jobs.md
 python -m jobhunt tailor <uid>       # 调用 Claude 定制简历（需 ANTHROPIC_API_KEY）
 python -m jobhunt web                # 本地可视化网站；--export site.html 导出单文件快照；--server 服务器模式
+bash deploy/deploy_vps.sh            # 在 Mac 上运行：部署到 SaaS 那台 VPS 的 /jobs/（见 deploy/README.md）
 ```
 
 ## 铁律
@@ -52,6 +53,9 @@ python -m jobhunt web                # 本地可视化网站；--export site.htm
 - `jobhunt/web/` — 网站。数据来自 `docs/strategy.yaml`（STRATEGY.md 等文档的结构化版本，改一边要同步另一边）。
   strategy.yaml 的流式映射里：含英文逗号的值（如 `$103,265`）和 `yes` / `no` 必须加引号，`tests/test_web.py` 会检查
 - 前端是原生 JS，所有外部文本用 textContent 写入；改完跑 `tests/test_web.py`（含 Playwright 冒烟测试）
+- 前端请求一律用相对路径（`api/...`、`files/...`），因为线上挂在 nginx 的 `/jobs/` 子路径下；`tests/test_web.py` 有子路径的浏览器测试
+- `deploy/`：`deploy_vps.sh`（Mac 端）→ `remote_setup.sh`（服务器端）→ `nginx_include.py`（只在 SaaS 的 443 server 块里加一行 include，
+  有备份和自动回滚）。改动 nginx 相关逻辑后跑 `tests/test_deploy.py`（装了 nginx 时会跑 `nginx -t`）。不要把服务器 IP 写进仓库，放 `private/deploy.env`
 
 ## 环境注意
 

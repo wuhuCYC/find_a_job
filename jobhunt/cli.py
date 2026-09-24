@@ -19,6 +19,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import os
 import re
 import sys
 from datetime import date
@@ -233,8 +234,10 @@ def cmd_web(args) -> int:
         path = export_site(Path(args.export), standalone=not args.artifact, include_jobs=not args.no_jobs)
         print(f"已导出单文件网站：{path}")
         return 0
+    # JOBHUNT_TAILOR=0 写在服务器的 .env 里，效果同 --no-tailor
+    tailor_enabled = not args.no_tailor and os.environ.get("JOBHUNT_TAILOR", "1").strip() != "0"
     serve(port=args.port, open_browser=not args.no_browser, allowed_hosts=set(args.allow_host or []),
-          server_mode=args.server)
+          server_mode=args.server, tailor_enabled=tailor_enabled)
     return 0
 
 
@@ -314,6 +317,8 @@ def build_parser() -> argparse.ArgumentParser:
     w.add_argument("--no-jobs", action="store_true", help="导出时不包含职位数据")
     w.add_argument("--server", action="store_true", help="服务器模式：不开浏览器、关闭预填申请（配合 nginx 反代，见 deploy/）")
     w.add_argument("--allow-host", action="append", help="允许的域名（nginx 反代时填你的域名，可重复）")
+    w.add_argument("--no-tailor", action="store_true",
+                   help="关闭网页上的定制简历（服务器调不了 Claude API 时用，也可以设 JOBHUNT_TAILOR=0）")
     w.set_defaults(func=cmd_web)
 
     r = sub.add_parser("run", help="一条龙：fetch → score → 导出 output/jobs.md")

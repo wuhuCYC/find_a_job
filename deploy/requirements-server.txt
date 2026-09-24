@@ -1,0 +1,8 @@
+# 服务器用：不装浏览器预填（playwright）和测试。版本和根目录 requirements.txt 一致（tests/test_deploy.py 会检查）
+requests>=2.31
+PyYAML>=6.0
+pydantic>=2.7
+rendercv[full]==2.3
+click>=8.1
+pypdf>=4.0
+anthropic>=1.8

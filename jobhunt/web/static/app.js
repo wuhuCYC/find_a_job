@@ -50,7 +50,7 @@
   const REGION_LABEL = { OC: '橙县', LA: '洛杉矶', REMOTE_US: '美国远程', SD: '圣地亚哥', BAY: '湾区', CA_OTHER: '加州其他', REMOTE: '远程 / 外州', OTHER: '其他' };
   const STATUS_LABEL = { new: '未处理', shortlisted: '想投', tailored: '已定制', prefilled: '已预填', applied: '已投递', oa: '笔试', interview: '面试', offer: 'Offer', rejected: '被拒', skipped: '跳过' };
   const PROGRESS = ['applied', 'oa', 'interview', 'offer'];
-  const STANCE_CLASS = { 主攻: 'accent', 可投: 'soft', 冲刺: 'warn', 暂缓: '' };
+  const STANCE_CLASS = { 主攻: 'accent', 副线: 'ghost', 可投: 'soft', 冲刺: 'warn', 暂缓: '' };
   const COMPONENTS = [['archetype', '方向', '--s1'], ['skills', '技能', '--s2'], ['location', '地区', '--s3'], ['seniority', '职级', '--s4'], ['company', '公司', '--s5']];
   const FLAG_LABEL = { visa_blocker: '签证阻碍', no_sponsorship: '不担保措辞', citizenship_required: '要求公民身份', clearance: '要求安全审查', e_verify: 'E-Verify', location_unknown: '地点未知' };
   const FLAG_CLASS = { visa_blocker: 'crit', no_sponsorship: 'crit', citizenship_required: 'crit', clearance: 'crit', e_verify: 'good', location_unknown: 'warn' };
@@ -117,6 +117,21 @@
     toastTimer = setTimeout(() => { t.hidden = true; }, 3800);
   }
 
+  // 一行可复制的命令
+  function cmdHint(text, cmd) {
+    const code = h('code', { class: 'cmd' }, cmd);
+    const select = () => {
+      try { window.getSelection().selectAllChildren(code); toast('已选中，按 ⌘C / Ctrl+C 复制'); } catch (e) { /* 忽略 */ }
+    };
+    const copy = () => {
+      try {
+        navigator.clipboard.writeText(cmd).then(() => toast('已复制'), select);
+      } catch (e) { select(); }
+    };
+    return h('div', { class: 'cmd-hint' }, h('p', null, text),
+      h('div', { class: 'cmd-row' }, code, h('button', { type: 'button', class: 'btn', onclick: copy }, '复制')));
+  }
+
   // ------------------------------------------------------------------ 数据
   async function api(path, body) {
     const opt = body === undefined ? {} : {
@@ -132,7 +147,7 @@
   }
   async function refresh() {
     if (!STATE.live) return;
-    STATE.data = await api('/api/data');
+    STATE.data = await api('api/data');
     renderAll();
     if (STATE.openUid) {
       const job = STATE.data.jobs.find((j) => j.uid === STATE.openUid);
@@ -142,7 +157,7 @@
   function runTask(endpoint, body, label) {
     api(endpoint, body).then(({ task }) => {
       toast(label + '：已开始');
-      const poll = () => api('/api/task?id=' + encodeURIComponent(task)).then((t) => {
+      const poll = () => api('api/task?id=' + encodeURIComponent(task)).then((t) => {
         if (t.status === 'running') { setTimeout(poll, 1500); return; }
         if (t.status === 'done') {
           const r = t.result || {};
@@ -211,6 +226,7 @@
       thesisKids.push(p.trim());
     });
     const primary = (st.directions || []).filter((x) => x.stance === '主攻');
+    const side = (st.directions || []).filter((x) => x.stance === '副线');
 
     const realJobs = d.examples ? [] : d.jobs;
     const progress = realJobs.filter((j) => PROGRESS.includes(j.status)).length;
@@ -254,7 +270,9 @@
       h('div', { class: 'thesis' },
         h('div', { class: 'eyebrow' }, '你的定位'),
         h('p', { class: 'thesis-text' }, thesisKids),
-        h('div', { class: 'chips' }, h('span', { class: 'muted' }, '主攻：'), primary.map((x) => h('span', { class: 'pill accent' }, archShort(x.key)))),
+        h('div', { class: 'chips' }, h('span', { class: 'muted' }, '主攻：'), primary.map((x) => h('span', { class: 'pill accent' }, archShort(x.key))),
+          side.length ? h('span', { class: 'muted', style: 'margin-left:8px' }, '副线：') : null,
+          side.map((x) => h('span', { class: 'pill ghost' }, archShort(x.key)))),
       ),
       kpis,
       h('div', { class: 'grid-2' }, fit, steps),
@@ -275,7 +293,9 @@
     }
     if (p.filed) {
       return h('div', { class: 'banner info' }, h('span', null, 'ℹ'),
-        h('span', null, 'OPT 已于 ', h('strong', { class: 'mono' }, p.filed), ' 提交。拿到 EAD 后在 private/profile.yaml 填 ead_start_date，这里会显示 90 天失业计时。'));
+        h('span', null, 'OPT 已于 ', h('strong', { class: 'mono' }, p.filed), ' 提交，等 USCIS 批准（收据通知 I-797C 上的案件号可以在 USCIS 网站查进度）。',
+          '拿到 EAD 卡、并且到了卡上的开始日期才能工作；开始日期是你申请的日子和批准日里较晚的那个，90 天失业计时从那天算。',
+          '拿到卡后在 private/profile.yaml 填 ead_start_date。'));
     }
     const left = daysBetween(today, p.opt_deadline);
     return h('div', { class: 'banner' }, h('span', null, '⏱'),
@@ -292,6 +312,7 @@
         (vs.rows || []).map((r) => h('div', { class: 'vs-row' },
           h('span', { class: 'vs-label' }, r.label), h('span', null, r.quant), h('span', null, r.fintech)))),
       h('p', { class: 'ink2', style: 'margin-top:14px;font-size:13px' }, vs.middle),
+      vs.decision ? h('p', { class: 'vs-decision' }, vs.decision) : null,
       h('p', { class: 'vs-advice' }, vs.advice),
     );
   }
@@ -452,8 +473,8 @@
     visa.addEventListener('click', () => { f.hideVisa = !f.hideVisa; visa.setAttribute('aria-pressed', String(f.hideVisa)); savePrefs(); renderJobResults(); });
 
     const liveActions = STATE.live ? h('div', { class: 'actions' },
-      h('button', { type: 'button', class: 'btn primary', onclick: () => runTask('/api/fetch', {}, '抓取职位') }, '抓取最新职位'),
-      h('button', { type: 'button', class: 'btn', onclick: () => api('/api/score', {}).then((r) => { toast('已重新打分 ' + r.total + ' 个职位'); refresh(); }).catch((e) => toast('打分失败：' + e.message)) }, '重新打分'),
+      h('button', { type: 'button', class: 'btn primary', onclick: () => runTask('api/fetch', {}, '抓取职位') }, '抓取最新职位'),
+      h('button', { type: 'button', class: 'btn', onclick: () => api('api/score', {}).then((r) => { toast('已重新打分 ' + r.total + ' 个职位'); refresh(); }).catch((e) => toast('打分失败：' + e.message)) }, '重新打分'),
     ) : null;
 
     fill(el,
@@ -490,7 +511,7 @@
         h('p', { class: 'ink2' }, '在你的 Mac 上依次运行：'),
         h('code', { class: 'code' }, 'python -m jobhunt check'),
         h('code', { class: 'code' }, 'python -m jobhunt run'),
-        STATE.live ? h('button', { type: 'button', class: 'btn primary', onclick: () => runTask('/api/fetch', {}, '抓取职位') }, '现在抓取') : null,
+        STATE.live ? h('button', { type: 'button', class: 'btn primary', onclick: () => runTask('api/fetch', {}, '抓取职位') }, '现在抓取') : null,
       ));
       return;
     }
@@ -553,7 +574,7 @@
     return sel;
   }
   function setStatus(job, status) {
-    api('/api/status', { uid: job.uid, status }).then(() => {
+    api('api/status', { uid: job.uid, status }).then(() => {
       job.status = status;
       toast(job.company + ' → ' + (STATUS_LABEL[status] || status));
       refresh();
@@ -610,18 +631,22 @@
 
     const jd = h('div', { class: 'jd' }, job.description || (STATE.live ? '加载中…' : '快照里没有 JD 原文。'));
     if (STATE.live && !job.description && !job.example) {
-      api('/api/job?uid=' + encodeURIComponent(job.uid)).then((r) => { jd.textContent = r.description || '（JD 为空）'; }).catch((e) => { jd.textContent = '加载失败：' + e.message; });
+      api('api/job?uid=' + encodeURIComponent(job.uid)).then((r) => { jd.textContent = r.description || '（JD 为空）'; }).catch((e) => { jd.textContent = '加载失败：' + e.message; });
     }
 
     let actions;
     if (STATE.live && !job.example) {
+      const canTailor = STATE.data.can_tailor !== false;
       actions = h('div', { class: 'actions' },
         h('button', { type: 'button', class: 'btn', onclick: () => setStatus(job, 'shortlisted') }, '想投'),
-        h('button', { type: 'button', class: 'btn primary', onclick: () => runTask('/api/tailor', { uid: job.uid }, '定制简历') }, '定制简历'),
-        STATE.data.can_apply === false ? null : h('button', { type: 'button', class: 'btn', onclick: () => runTask('/api/apply', { uid: job.uid }, '打开申请页') }, '打开申请页并预填'),
+        canTailor ? h('button', { type: 'button', class: 'btn primary', onclick: () => runTask('api/tailor', { uid: job.uid }, '定制简历') }, '定制简历') : null,
+        STATE.data.can_apply === false ? null : h('button', { type: 'button', class: 'btn', onclick: () => runTask('api/apply', { uid: job.uid }, '打开申请页') }, '打开申请页并预填'),
         h('button', { type: 'button', class: 'btn', onclick: () => setStatus(job, 'applied') }, '标记已投递'),
         h('button', { type: 'button', class: 'btn', onclick: () => setStatus(job, 'skipped') }, '跳过'),
       );
+      // 服务器调不了 Claude API（例如在国内）：给出在自己电脑上运行的命令
+      if (!canTailor) actions = h('div', { class: 'actions-wrap' }, actions,
+        cmdHint('这台服务器不能调用 Claude，定制简历请在自己电脑上运行：', "python -m jobhunt tailor '" + job.uid + "'"));
     } else {
       actions = h('p', { class: 'muted', style: 'font-size:12.5px' }, job.example ? '示例职位不能操作。' : '只读快照：本地运行 python -m jobhunt web 后可以定制简历、打开申请页。');
     }
@@ -882,8 +907,8 @@
     );
 
     let pdf = null;
-    if (d.resumes[dir]) pdf = h('a', { class: 'btn', href: '/files/' + d.resumes[dir], target: '_blank', rel: 'noopener' }, '打开 PDF ↗');
-    else if (STATE.live) pdf = h('button', { type: 'button', class: 'btn', onclick: () => runTask('/api/base', {}, '生成基础简历') }, '生成 PDF');
+    if (d.resumes[dir]) pdf = h('a', { class: 'btn', href: 'files/' + d.resumes[dir], target: '_blank', rel: 'noopener' }, '打开 PDF ↗');
+    else if (STATE.live) pdf = h('button', { type: 'button', class: 'btn', onclick: () => runTask('api/base', {}, '生成基础简历') }, '生成 PDF');
     const planPanel = h('div', { class: 'panel' },
       h('div', { class: 'panel-head' },
         h('div', null, h('div', { class: 'eyebrow' }, '基础简历'), h('h2', null, archLabel(dir))),
@@ -997,7 +1022,7 @@
   async function boot() {
     const snap = document.getElementById('snapshot');
     try {
-      STATE.data = snap ? JSON.parse(snap.textContent) : await api('/api/data');
+      STATE.data = snap ? JSON.parse(snap.textContent) : await api('api/data');
     } catch (e) {
       fatal(String(e.message || e));
       return;
