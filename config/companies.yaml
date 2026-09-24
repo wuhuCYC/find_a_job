@@ -7,6 +7,7 @@
 #   workday {host, tenant, site} / icims {portal}（实验）/ jobvite {company}（实验）/ manual（只能手动看官网）
 # verified：ATS 配置是否在调研中从真实招聘链接里确认过。false 的请先跑 `python -m jobhunt check`
 # search_terms：只对 workday 生效；职位特别多的公司用关键词缩小范围（删掉则抓全部）
+# map_city / group：网站地图用的落点城市和分组（可选，默认从 hq / category 推断）
 # ============================================================================
 
 companies:
@@ -37,6 +38,7 @@ companies:
     tier: 1
     category: insurance
     hq: Newport Beach, CA
+    group: buy_side          # 投资部门（Pacific Life Investments）才是目标
     ats: {type: workday, host: pacificlife.wd1.myworkdayjobs.com, tenant: pacificlife, site: PacificLifeCareers}
     verified: true
     careers_url: https://www.pacificlife.com/home/Careers.html
@@ -179,6 +181,7 @@ companies:
     tier: 3
     category: asset_manager
     hq: Tampa, FL (LA office)
+    map_city: Los Angeles
     ats: {type: manual}
     verified: false
     careers_url: https://doubleline.com

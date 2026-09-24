@@ -27,49 +27,50 @@ version: 1
 # 每个方向一句话定位（tailor 会在此基础上按 JD 微调，但不会新增事实）
 summaries:
   quant_dev: >-
-    MS EECS candidate at UC Irvine who builds trading research infrastructure end to end —
+    MS EECS graduate of UC Irvine (2026) who builds trading research infrastructure end to end —
     data pipelines, vectorized signal libraries, cost-aware backtesters and walk-forward
     parameter search — mainly in Python, with Java experience.
   quant_research: >-
-    MS EECS candidate at UC Irvine who turns market intuition into testable event signals and
+    MS EECS graduate of UC Irvine (2026) who turns market intuition into testable event signals and
     judges them against placebo and random-entry baselines, out of sample and by regime.
   trading_systems: >-
-    MS EECS candidate at UC Irvine who has shipped scheduled and real-time market-monitoring
+    MS EECS graduate of UC Irvine (2026) who has shipped scheduled and real-time market-monitoring
     services — polling, alerting, de-duplication and failure isolation — for live trading decisions.
   fintech_swe: >-
-    MS EECS candidate at UC Irvine who has built and deployed a multi-user fintech-style SaaS
-    (Flask, React, JWT auth, paid tiers, background jobs, 375 automated tests) plus trading data systems.
+    MS EECS graduate of UC Irvine (2026) who built, launched and monetized a multi-user SaaS with 100+
+    paying subscribers (Flask, React, JWT auth, background jobs, 375 automated tests), plus trading data systems.
   risk_data: >-
-    MS EECS candidate at UC Irvine with hands-on experience in feature engineering, event studies,
+    MS EECS graduate of UC Irvine (2026) with hands-on experience in feature engineering, event studies,
     out-of-sample validation and time-series classification on market and behavioral data.
   investment_analytics: >-
-    MS EECS candidate at UC Irvine who builds investment data pipelines, sector and regime analytics
+    MS EECS graduate of UC Irvine (2026) who builds investment data pipelines, sector and regime analytics
     and performance reporting (Sharpe, drawdown, attribution by tier) for trading research.
   marketplace_econ: >-
-    MS EECS candidate at UC Irvine who has spent a year modeling a real virtual-goods market —
+    MS EECS graduate of UC Irvine (2026) who has spent a year modeling a real virtual-goods market —
     supply, demand, large-holder inventories and price cycles — with production data systems.
 
 # ----------------------------------------------------------------------------
 # 技能（level: expert / proficient / working / coursework / none）
 # 打分器用它判断 JD 技能匹配度；tailor 只能从这里挑技能名。
-# TODO: 请逐个确认 level，尤其 Java、C++、SQL、AWS、Docker。
+# 等级按 2026-09 自评设置（写代码主要靠 AI 辅助，手写需要练回来）；练回来后再上调。
+# 简历技能栏只展示 working 及以上。
 # ----------------------------------------------------------------------------
 skills:
-  - {name: Python, level: expert, group: Languages}
-  - {name: Java, level: proficient, group: Languages}          # 你自述熟练；建议补一个 Java 作品证明
-  - {name: SQL, level: proficient, group: Languages}
+  - {name: Python, level: proficient, group: Languages}
+  - {name: Java, level: working, group: Languages}              # 需要一个 Java 作品证明
+  - {name: SQL, level: working, group: Languages}
   - {name: JavaScript, level: working, group: Languages}
   - {name: C++, level: coursework, group: Languages}           # TODO 确认
-  - {name: pandas, level: expert, group: Data & ML}
-  - {name: NumPy, level: proficient, group: Data & ML}
+  - {name: pandas, level: proficient, group: Data & ML}
+  - {name: NumPy, level: working, group: Data & ML}
   - {name: Optuna, level: proficient, group: Data & ML}
   - {name: scikit-learn, level: working, group: Data & ML}
   - {name: TensorFlow, level: working, group: Data & ML}       # 课程项目 LSTM/GRU/Transformer（Keras）
   - {name: hmmlearn, level: working, group: Data & ML}
   - {name: Parquet, level: proficient, group: Data & ML}
-  - {name: FastAPI, level: proficient, group: Backend}
-  - {name: Flask, level: proficient, group: Backend}
-  - {name: SQLAlchemy, level: proficient, group: Backend}
+  - {name: FastAPI, level: working, group: Backend}
+  - {name: Flask, level: working, group: Backend}
+  - {name: SQLAlchemy, level: working, group: Backend}
   - {name: SQLite, level: proficient, group: Backend}
   - {name: WebSocket, level: proficient, group: Backend}
   - {name: REST APIs, level: proficient, group: Backend}
@@ -82,8 +83,8 @@ skills:
   - {name: nginx, level: working, group: Infra & Tools}
   - {name: Git, level: proficient, group: Infra & Tools}
   - {name: pytest, level: proficient, group: Infra & Tools}
-  - {name: Docker, level: none, group: Infra & Tools}          # TODO 如果用过就改
-  - {name: AWS, level: none, group: Infra & Tools}             # TODO 如果用过就改
+  - {name: Docker, level: working, group: Infra & Tools}
+  - {name: AWS, level: none, group: Infra & Tools}             # 没用过，正在补（见 SKILL_GAP_PLAN 项目 4）
   - {name: LLM APIs, level: proficient, group: Infra & Tools}  # Claude / GLM-4V 视觉接口
   - {name: Claude Code, level: expert, group: Infra & Tools}
 
@@ -101,7 +102,7 @@ education:
     area: Electrical Engineering and Computer Science
     location: Irvine, CA
     start: TODO          # 例如 2024-09
-    end: TODO            # 例如 2026-06（在读写预计毕业时间）
+    end: 2026-08
     gpa: TODO
     coursework:
       - EECS 215 Data Mining & Modeling
@@ -207,6 +208,7 @@ entries:
         source: csgo-agent V20
     bullets:
       - id: cs2.event_study
+        label: 事件研究 vs 安慰剂 / 基线
         text: >-
           Turned a discretionary pullback-to-cost-basis setup into a look-ahead-free event signal and
           tested it on 13,671 events across 1,190 instruments over 3 years: 14-day hit rate of 46.0%
@@ -214,6 +216,7 @@ entries:
         facts: [f_event_study]
         weights: {quant_research: 3, quant_dev: 3, risk_data: 3, investment_analytics: 2, marketplace_econ: 2}
       - id: cs2.regime_risk
+        label: 分 regime 与止损压力测试
         text: >-
           Stress-tested that edge by regime and exit rule: it disappeared during a market-structure
           shock (43.5% vs. 44.9% placebo), and stop-loss overlays cut hit rates by 2–5 percentage
@@ -221,6 +224,7 @@ entries:
         facts: [f_event_study]
         weights: {quant_research: 3, quant_dev: 2, risk_data: 2, investment_analytics: 1}
       - id: cs2.paper_trading
+        label: 纸面交易 + 随机对照组
         text: >-
           Built a paper-trading harness with a random-entry control group, a 7-day trade-hold
           constraint and two-stage exits; when random entries beat all 11 signal sources in a weak
@@ -228,6 +232,7 @@ entries:
         facts: [f_paper_trading]
         weights: {quant_research: 3, quant_dev: 3, trading_systems: 1, risk_data: 2, investment_analytics: 2}
       - id: cs2.methodology_fix
+        label: 回测方法论自我审计
         text: >-
           Audited my own backtests: removed double-counted correlated features (max stacked score
           83 → 25), lengthened cooldowns from 7 to 14 days to reduce overlapping samples, and
@@ -235,6 +240,7 @@ entries:
         facts: [f_methodology_fix]
         weights: {quant_research: 3, quant_dev: 2, risk_data: 3, investment_analytics: 1}
       - id: cs2.walkforward
+        label: walk-forward 样本外命中率
         text: >-
           Ran walk-forward (70/30) backtests; price-tier-specific feature weights raised the
           out-of-sample hit rate (7-day return ≥ 8%) of alerted signals from 24.5% to 29.5% on 3,274
@@ -242,6 +248,7 @@ entries:
         facts: [f_walkforward]
         weights: {quant_research: 2, quant_dev: 2, risk_data: 2, marketplace_econ: 1}
       - id: cs2.data_platform
+        label: 3 年行情 + 供需深度数据层
         text: >-
           Built the data layer for a Steam CS2 item-market research platform: ~3 years of daily OHLCV
           for 2,430 instruments plus daily listing (supply) and buy-order (demand) history for 2,012
@@ -249,24 +256,28 @@ entries:
         facts: [f_universe]
         weights: {quant_dev: 3, investment_analytics: 3, fintech_swe: 1, marketplace_econ: 3, risk_data: 1}
       - id: cs2.scale
+        label: 系统规模（48K 行）
         text: >-
           Grew the system to a ~48K-line Python codebase (plus a ~10K-line JS dashboard) covering
           signal scanners, a market-cycle state machine, backtests and daily automation.
         facts: [f_scale, f_state_machine]
         weights: {quant_dev: 1, fintech_swe: 1, trading_systems: 1}
       - id: cs2.signal_log
+        label: 研究到生产的信号闭环
         text: >-
           Closed the loop from research to production with scheduled daily scans, Telegram alerts,
           and an append-only signal log that back-fills realized 7/14/30-day returns for every alert.
         facts: [f_signal_log]
         weights: {quant_dev: 2, trading_systems: 3, fintech_swe: 2, investment_analytics: 2}
       - id: cs2.volume_radar
+        label: 异常放量雷达
         text: >-
           Implemented an abnormal-volume radar over 1,651 instruments that flags ≥3× volume spikes and
           classifies them by price position and candle direction.
         facts: [f_volume_radar]
         weights: {trading_systems: 2, quant_dev: 1, marketplace_econ: 2}
       - id: cs2.dashboard
+        label: 研究仪表盘
         text: >-
           Shipped a research dashboard (Python HTTP server, 20+ REST endpoints, modular JS) with
           candlestick charts, signal-performance badges and sector heatmaps based on median pairwise
@@ -274,6 +285,7 @@ entries:
         facts: [f_dashboard]
         weights: {fintech_swe: 2, investment_analytics: 2, quant_dev: 1}
       - id: cs2.market_model
+        label: 虚拟商品市场供需与大户
         text: >-
           Modeled supply and demand in a virtual-goods market — listings, buy orders and large-holder
           inventories — by diffing public Steam inventory snapshots across many accounts into a
@@ -350,6 +362,7 @@ entries:
         source: a-stock-signal-v2 .claude/memory/feedback_kline_local_cache.md, CLAUDE.md
     bullets:
       - id: eq.platform
+        label: A 股信号研究平台全貌
         text: >-
           Built an end-to-end equity signal research platform in Python (~16K LOC, 89 unit tests)
           covering 5,000+ China A-share stocks: incremental data pipeline, 21 vectorized buy signals,
@@ -357,6 +370,7 @@ entries:
         facts: [f_scale, f_universe, f_signals, f_filters]
         weights: {quant_dev: 3, quant_research: 2, investment_analytics: 3, fintech_swe: 1, trading_systems: 1}
       - id: eq.backtester
+        label: 事件驱动回测引擎
         text: >-
           Wrote an event-driven backtester with next-open execution, limit-up/limit-down fill
           handling, position caps (10 names, ≤20% each), asymmetric commissions and tiered slippage;
@@ -364,6 +378,7 @@ entries:
         facts: [f_backtest]
         weights: {quant_dev: 3, quant_research: 3, trading_systems: 2, investment_analytics: 3, risk_data: 1}
       - id: eq.optuna
+        label: Optuna walk-forward 调参
         text: >-
           Automated parameter search with Optuna (TPE) under rolling walk-forward validation (6-month
           train / 2-month validation) and promoted parameter sets through a versioned lifecycle
@@ -371,6 +386,7 @@ entries:
         facts: [f_evolution]
         weights: {quant_dev: 3, quant_research: 2, risk_data: 2, investment_analytics: 1}
       - id: eq.bias_controls
+        label: 前视偏差控制与市场规则
         text: >-
           Guarded against look-ahead bias by lagging every derived feature and executing at the next
           open, and encoded market rules (T+1 settlement, 10/20/30% board price limits) in one adapter
@@ -378,6 +394,7 @@ entries:
         facts: [f_signals, f_constraints]
         weights: {quant_research: 3, quant_dev: 2, trading_systems: 1, risk_data: 1}
       - id: eq.realtime_monitor
+        label: 盘中 6 秒风控监控
         text: >-
           Implemented an intraday risk monitor that polls quotes for held positions every 6 seconds
           and raises stop-loss, trailing-stop, heavy-volume-drop and support-break alerts with
@@ -385,12 +402,14 @@ entries:
         facts: [f_realtime]
         weights: {trading_systems: 3, fintech_swe: 2, quant_dev: 2, risk_data: 1}
       - id: eq.buy_slow_sell_fast
+        label: 买慢卖快双引擎架构
         text: >-
           Split the system into an end-of-day batch scan of 5,000+ stocks and a real-time monitor for
           5–15 holdings, with independent schedulers, data frequencies and failure isolation.
         facts: [f_universe, f_realtime]
         weights: {trading_systems: 3, quant_dev: 1, fintech_swe: 1}
       - id: eq.service
+        label: FastAPI + WebSocket 服务
         text: >-
           Served signals through FastAPI and WebSocket with APScheduler jobs; split SQLite stores
           (shared market data vs. per-user data) to remove write-lock contention and scoped every user
@@ -398,6 +417,7 @@ entries:
         facts: [f_service]
         weights: {fintech_swe: 3, trading_systems: 2, quant_dev: 1}
       - id: eq.data_layer
+        label: 持仓与资金流数据层
         text: >-
           Integrated market, positioning and fund-flow datasets (chip distribution, shareholder
           counts, margin balances, top-trader lists) behind a cached, incremental Parquet layer with
@@ -405,6 +425,7 @@ entries:
         facts: [f_data]
         weights: {investment_analytics: 3, quant_dev: 2, risk_data: 2, quant_research: 1}
       - id: eq.sector_mapping
+        label: 申万行业映射与板块评级
         text: >-
           Mapped 5,201 stocks to Shenwan L1/L2 industries (99.6% L2 coverage) and aggregated
           constituents into sector ratings that scale stock scores by 0.50–1.15.
@@ -415,13 +436,18 @@ entries:
   - id: portfolio_alert_saas
     kind: project
     title: Portfolio Monitoring & Sell-Alert SaaS for CS2 Item Investors
-    role: Founder & sole developer      # TODO 如有真实用户/付费用户，补到 facts 里（这是大加分项）
+    role: Founder & sole developer
     location: ""
     start: 2026-03
     end: 2026-07
     url: ""
     stack: [Python, Flask, SQLAlchemy, SQLite, React, Vite, JavaScript, JWT, APScheduler, REST APIs, pytest, Linux, systemd, nginx, LLM APIs]
     facts:
+      - id: f_users
+        text: >-
+          100+ paying subscribers at ¥100 (CNY) per month each, i.e. ¥10K+ (more than ¥10,000) in monthly
+          recurring revenue.
+        source: 用户口述 2026-09-24（建议保留后台订阅数据截图备查）
       - id: f_stack
         text: >-
           Flask REST API + SQLAlchemy on SQLite (10 tables) and a React + Vite frontend; about 22K
@@ -472,13 +498,22 @@ entries:
         source: sell_csgo_monitor CLAUDE.md (narrator v4)
     bullets:
       - id: saas.product
+        label: 多用户持仓监控产品
         text: >-
           Built and deployed a multi-user portfolio-monitoring SaaS for CS2 item investors (Flask,
           SQLAlchemy, React/Vite): Steam inventory sync, cost basis and P&L tracking, scheduled risk
           scans, and sell alerts via WeChat and Telegram.
         facts: [f_stack, f_features, f_push]
         weights: {fintech_swe: 3, trading_systems: 2, marketplace_econ: 2, quant_dev: 1, investment_analytics: 1}
+      - id: saas.traction
+        label: 100+ 付费用户
+        text: >-
+          Grew the product to 100+ paying subscribers at ¥100/month (¥10K+ in monthly recurring revenue) as
+          its founder and sole developer.
+        facts: [f_users]
+        weights: {fintech_swe: 3, marketplace_econ: 3, quant_dev: 2, trading_systems: 2, investment_analytics: 1, risk_data: 1}
       - id: saas.security
+        label: 认证与数据安全加固
         text: >-
           Hardened auth and data handling: JWT with 2-hour access and 7-day httpOnly refresh tokens,
           Fernet-encrypted third-party session cookies, a fail-closed startup security check, CORS
@@ -486,6 +521,7 @@ entries:
         facts: [f_auth, f_security]
         weights: {fintech_swe: 3, trading_systems: 1}
       - id: saas.jobs
+        label: 后台调度与推送容灾
         text: >-
           Ran background work in a separate APScheduler service (6 cron jobs) with DB-backed task
           state, retry-on-lock SQLite commits, and multi-channel delivery that falls back and disables
@@ -493,6 +529,7 @@ entries:
         facts: [f_scheduler, f_push]
         weights: {fintech_swe: 3, trading_systems: 3, quant_dev: 1}
       - id: saas.monetization
+        label: 付费分级、测试与部署
         text: >-
           Added free/paid tiers with a 30-day trial, an admin console (8 admin APIs) and data export;
           kept 375 pytest tests passing and deployed on a Linux VPS with gunicorn, systemd, nginx and
@@ -500,12 +537,14 @@ entries:
         facts: [f_features, f_tests_deploy]
         weights: {fintech_swe: 3, trading_systems: 1, marketplace_econ: 1}
       - id: saas.ocr
+        label: 截图 OCR 录入成本
         text: >-
           Automated cost-basis entry from trade screenshots with a vision LLM plus fuzzy item-name
           matching (difflib, 0.85 threshold) across marketplaces that name items inconsistently.
         facts: [f_ocr]
         weights: {fintech_swe: 2, risk_data: 1, marketplace_econ: 1}
       - id: saas.contract
+        label: 研究与产品解耦的信号契约
         text: >-
           Decoupled research from product by consuming a JSON signal contract from the research
           pipeline through an adapter layer, so signal logic could change without breaking the app.
@@ -542,6 +581,7 @@ entries:
         source: results/reports/final_evaluation_report.txt
     bullets:
       - id: mr.hmm
+        label: HMM 隐状态建模
         text: >-
           Modeled team-collaboration dynamics from per-second multimodal features (speaking entropy,
           dominance, joint attention, proximity) with a Gaussian HMM to uncover latent coordination
@@ -549,6 +589,7 @@ entries:
         facts: [f_data, f_method]
         weights: {risk_data: 3, quant_research: 2, quant_dev: 1}
       - id: mr.sequence_models
+        label: 序列模型对比 + 防泄漏切分
         text: >-
           Compared LSTM, GRU and Transformer sequence classifiers (TensorFlow/Keras) with a Random
           Forest, using group-level train/validation/test splits (8/2/2 groups) to prevent leakage
@@ -556,6 +597,7 @@ entries:
         facts: [f_method]
         weights: {risk_data: 3, quant_research: 2, quant_dev: 1}
       - id: mr.feature_selection
+        label: 特征选择与类别不平衡
         text: >-
           Ran supervised feature selection (mutual information, RFE, Lasso) and handled class
           imbalance for rare "intervention-needed" windows.

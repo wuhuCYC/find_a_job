@@ -24,7 +24,9 @@
 
 **卖点预警 SaaS**
 
-- 金融科技后端：*"I shipped a multi-user product people pay for: JWT auth, encrypted third-party credentials, a separate scheduler service, multi-channel alerts with failover, 375 tests, deployed on Linux with nginx and TLS."*（「people pay for」只有在真有付费用户时才能说 ⚠️）
+- 金融科技后端：*"I shipped a multi-user product that 100+ people pay ¥100 a month for: JWT auth, encrypted third-party credentials, a separate scheduler service, multi-channel alerts with failover, 375 tests, deployed on Linux with nginx and TLS."*
+- 交易市场 / 产品：*"I found a real pain point among CS2 item investors — knowing when to sell — and turned my own research into a product with 100+ paying subscribers."*
+- 准备好被追问：怎么获客、留存怎么样、用户反馈改过什么。保留后台订阅数据截图备查。
 
 ---
 

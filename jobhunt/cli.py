@@ -11,6 +11,7 @@
   apply UID             打开申请页、预填、上传简历（你自己点提交）
   status UID 状态       更新投递状态：shortlisted/applied/oa/interview/offer/rejected/skipped
   validate              校验经历素材库（数字/技术栈都有事实支撑）
+  web                   打开本地可视化网站（--export 导出单文件快照）
   run                   一条龙：fetch → score → 导出 output/jobs.md
 """
 from __future__ import annotations
@@ -25,25 +26,13 @@ from pathlib import Path
 
 from . import config
 from .bank import load_bank, validate_bank
-from .http import Http, HttpError
+from .http import Http
 from .models import Job
-from .scoring import Scorer
 from .store import STATUSES, Store
 
 
 def _slug(text: str) -> str:
     return re.sub(r"[^a-z0-9]+", "-", text.lower()).strip("-")[:60]
-
-
-def _scorer(companies=None) -> Scorer:
-    bank = load_bank()
-    return Scorer(
-        config.load_archetypes(),
-        config.load_search(),
-        config.load_profile(),
-        [s.model_dump() for s in bank.skills],
-        companies if companies is not None else config.load_companies(),
-    )
 
 
 # ------------------------------------------------------------------ 抓取
@@ -69,42 +58,18 @@ def cmd_check(args) -> int:
 
 
 def cmd_fetch(args) -> int:
-    from .fetchers import fetch_company
+    from .actions import fetch_all
 
-    companies = config.load_companies()
-    if args.company:
-        companies = [c for c in companies if c.key in args.company]
-    elif args.tier:
-        companies = [c for c in companies if c.tier <= args.tier]
-    scorer = _scorer(companies=config.load_companies())
-    store, http = Store(), Http()
-    total_new = 0
-    for c in companies:
-        if not c.enabled or c.ats_type == "manual":
-            continue
-        try:
-            jobs = fetch_company(c, http, prefilter=scorer.prefilter)
-        except (HttpError, Exception) as exc:  # noqa: BLE001 —— 一家失败不影响其他家
-            store.log_fetch(c.key, False, error=str(exc)[:500])
-            print(f"  ✗ {c.name}: {str(exc)[:150]}")
-            continue
-        new, gone = store.upsert_jobs(c.key, jobs)
-        store.log_fetch(c.key, True, n_jobs=len(jobs))
-        total_new += new
-        print(f"  ✓ {c.name}: {len(jobs)} 个相关职位（新增 {new}，下架 {gone}）")
+    total_new = fetch_all(keys=args.company, tier=args.tier)
     print(f"\n本次新增 {total_new} 个职位。下一步：python -m jobhunt score")
     return 0
 
 
 def cmd_score(args) -> int:
-    store, scorer = Store(), _scorer()
-    jobs = store.active_jobs()
-    kept = 0
-    for job in jobs:
-        result = scorer.score(job)
-        store.save_score(job.uid, result)
-        kept += 0 if result.excluded else 1
-    print(f"已打分 {len(jobs)} 个职位，其中 {kept} 个进入候选。下一步：python -m jobhunt list")
+    from .actions import score_all
+
+    total, kept = score_all()
+    print(f"已打分 {total} 个职位，其中 {kept} 个进入候选。下一步：python -m jobhunt list")
     return 0
 
 
@@ -189,23 +154,18 @@ def cmd_show(args) -> int:
 
 # ------------------------------------------------------------------ 简历
 def cmd_base(args) -> int:
-    from .resume import select_base, write_and_render
+    from .actions import render_base
 
-    bank, profile = load_bank(), config.load_profile()
-    archetypes = list(config.load_archetypes()) if args.archetype == "all" else [args.archetype]
-    out = config.OUTPUT_DIR / "base"
-    for a in archetypes:
-        plan = select_base(bank, a)
-        files = write_and_render(plan, bank, profile, out, f"resume_{a}", render_pdf=not args.no_pdf)
-        print(f"  ✓ {a:<22} {files['pdf'] or files['yaml']}  页数={files['pages']} 删减={files['dropped']}")
+    archetypes = None if args.archetype == "all" else [args.archetype]
+    for r in render_base(archetypes, render_pdf=not args.no_pdf):
+        print(f"  ✓ {r['archetype']:<22} {r['pdf'] or r['yaml']}  页数={r['pages']} 删减={r['dropped']}")
     if config.profile_path().name == "profile.example.yaml":
         print("\n⚠ 还在用 profile.example.yaml 的占位信息。复制到 private/profile.yaml 填真实信息后再生成。")
     return 0
 
 
 def cmd_tailor(args) -> int:
-    from .resume import write_and_render
-    from .tailor import report_markdown, tailor
+    from .actions import tailor_job
 
     store = Store()
     if args.jd_file:
@@ -215,16 +175,10 @@ def cmd_tailor(args) -> int:
                   locations=[args.location] if args.location else [], description=text)
     else:
         job = _resolve_job(store, args.uid)
-    bank, profile, search = load_bank(), config.load_profile(), config.load_search()
     print(f"正在为 {job.company} — {job.title} 定制（调用 Claude）…")
-    outcome = tailor(job, bank, search.get("skill_vocabulary") or {})
-    out = config.OUTPUT_DIR / "tailored" / f"{date.today().isoformat()}_{_slug(job.company)}_{_slug(job.title)}"
-    files = write_and_render(outcome.plan, bank, profile, out, "resume", render_pdf=not args.no_pdf)
-    (out / "report.md").write_text(report_markdown(job, outcome, files), encoding="utf-8")
-    if job.source != "manual":
-        store.set_status(job.uid, "tailored", resume_path=str(files["pdf"] or files["yaml"]))
-    print(f"\n简历：{files['pdf'] or files['yaml']}\n报告：{out / 'report.md'}")
-    for w in outcome.warnings:
+    result = tailor_job(job, store=store, render_pdf=not args.no_pdf)
+    print(f"\n简历：{result['pdf'] or result['yaml']}\n报告：{result['report']}")
+    for w in result["warnings"]:
         print(f"  ⚠ {w}")
     return 0
 
@@ -234,11 +188,9 @@ def cmd_apply(args) -> int:
 
     store = Store()
     job = _resolve_job(store, args.uid)
-    resume = Path(args.resume) if args.resume else None
-    if resume is None:
-        row = store.conn.execute("SELECT resume_path FROM applications WHERE uid=?", (job.uid,)).fetchone()
-        if row and row["resume_path"] and row["resume_path"].endswith(".pdf"):
-            resume = Path(row["resume_path"])
+    from .actions import resume_for
+
+    resume = Path(args.resume) if args.resume else resume_for(store, job.uid)
     if resume is None or not resume.exists():
         print("⚠ 没有这个职位的定制简历（先跑 tailor），这次不上传简历。")
         resume = None
@@ -270,6 +222,19 @@ def cmd_validate(args) -> int:
     todo = sum(1 for line in config.bank_path().read_text(encoding="utf-8").splitlines() if "TODO" in line)
     if todo:
         print(f"  还有 {todo} 处 TODO 等你补充（grep -n TODO {config.bank_path()}）")
+    return 0
+
+
+def cmd_web(args) -> int:
+    from .web.export import export_site
+    from .web.server import serve
+
+    if args.export:
+        path = export_site(Path(args.export), standalone=not args.artifact, include_jobs=not args.no_jobs)
+        print(f"已导出单文件网站：{path}")
+        return 0
+    serve(port=args.port, open_browser=not args.no_browser, allowed_hosts=set(args.allow_host or []),
+          server_mode=args.server)
     return 0
 
 
@@ -340,6 +305,16 @@ def build_parser() -> argparse.ArgumentParser:
     s.set_defaults(func=cmd_status)
 
     sub.add_parser("validate", help="校验经历素材库").set_defaults(func=cmd_validate)
+
+    w = sub.add_parser("web", help="打开本地可视化网站（或导出单文件快照）")
+    w.add_argument("--port", type=int, default=8765)
+    w.add_argument("--no-browser", action="store_true", help="不自动打开浏览器")
+    w.add_argument("--export", help="导出单文件 HTML 快照到这个路径（不启动服务）")
+    w.add_argument("--artifact", action="store_true", help="导出不带 <html>/<head> 外壳的版本（发布成 Claude Artifact 用）")
+    w.add_argument("--no-jobs", action="store_true", help="导出时不包含职位数据")
+    w.add_argument("--server", action="store_true", help="服务器模式：不开浏览器、关闭预填申请（配合 nginx 反代，见 deploy/）")
+    w.add_argument("--allow-host", action="append", help="允许的域名（nginx 反代时填你的域名，可重复）")
+    w.set_defaults(func=cmd_web)
 
     r = sub.add_parser("run", help="一条龙：fetch → score → 导出 output/jobs.md")
     r.add_argument("--tier", type=int)

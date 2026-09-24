@@ -31,6 +31,8 @@ class CompanyConfig:
     careers_url: str | None = None
     notes: str | None = None
     search_terms: list[str] = field(default_factory=list)
+    map_city: str | None = None    # 网站地图上的落点城市（默认从 hq 推断）
+    group: str | None = None       # 网站分组：buy_side / fintech / market（默认按 category 推断）
 
     @property
     def ats_type(self) -> str:

@@ -18,6 +18,7 @@ class Fact(BaseModel):
 class Bullet(BaseModel):
     id: str
     text: str
+    label: str = ""                    # 网站上显示的中文短标签，不进简历
     facts: list[str] = Field(default_factory=list)
     weights: dict[str, int] = Field(default_factory=dict)
 

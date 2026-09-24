@@ -25,6 +25,7 @@ python -m jobhunt validate           # 校验经历素材库（改 experience_ba
 python -m jobhunt base               # 生成各方向基础简历 → output/base/
 python -m jobhunt run                # fetch + score + 导出 output/jobs.md
 python -m jobhunt tailor <uid>       # 调用 Claude 定制简历（需 ANTHROPIC_API_KEY）
+python -m jobhunt web                # 本地可视化网站；--export site.html 导出单文件快照；--server 服务器模式
 ```
 
 ## 铁律
@@ -48,6 +49,9 @@ python -m jobhunt tailor <uid>       # 调用 Claude 定制简历（需 ANTHROPI
 - `jobhunt/resume.py` — RenderCV 2.3（engineeringresumes 主题）。**四边页边距必须相同**，否则 Typst 报
   "cannot multiply dictionary with integer"
 - 渲染需要联网下载 Typst 的 fontawesome 包；离线环境会失败
+- `jobhunt/web/` — 网站。数据来自 `docs/strategy.yaml`（STRATEGY.md 等文档的结构化版本，改一边要同步另一边）。
+  strategy.yaml 的流式映射里：含英文逗号的值（如 `$103,265`）和 `yes` / `no` 必须加引号，`tests/test_web.py` 会检查
+- 前端是原生 JS，所有外部文本用 textContent 写入；改完跑 `tests/test_web.py`（含 Playwright 冒烟测试）
 
 ## 环境注意
 

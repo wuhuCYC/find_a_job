@@ -33,7 +33,7 @@ def test_to_rendercv_structure(bank):
     assert "start_date" not in cv["sections"]["education"][0]   # TODO 日期被跳过
     assert cv["sections"]["projects"] and cv["sections"]["skills"]
     skills_text = " ".join(s["details"] for s in cv["sections"]["skills"])
-    assert "C++" not in skills_text and "Docker" not in skills_text   # coursework/none 等级不展示
+    assert "C++" not in skills_text and "AWS" not in skills_text   # coursework/none 等级不展示
     page = data["design"]["page"]
     assert len({page[k] for k in ("top_margin", "bottom_margin", "left_margin", "right_margin")}) == 1
 

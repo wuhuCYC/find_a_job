@@ -20,6 +20,9 @@ person:
 # 工作授权 —— 决定打分器要不要重罚「不担保」的职位，以及申请表的参考答案。务必如实。
 work_authorization:
   status: TODO                          # 例如 "F-1, OPT from 2026-07, STEM OPT eligible"
+  program_end_date: TODO                # I-20 上的项目结束日，例如 2026-06-12（网站据此算 OPT 截止日）
+  opt_filed_date: TODO                  # I-765 提交日期（没交就留 TODO）
+  ead_start_date: TODO                  # EAD 卡上的开始日期（拿到卡后填，网站据此算 90 天失业计时）
   requires_sponsorship_now: false       # TODO
   requires_sponsorship_future: true     # TODO（F-1 学生通常是 true）
   authorized_to_work_answer: TODO       # 申请表「Are you legally authorized to work in the US?」的如实回答

@@ -1,0 +1,41 @@
+<title>钱途求职台</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700&family=Geist+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="app.css">
+
+<div class="app">
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <span class="brand-mark">钱途</span>
+        <span class="brand-sub">LA · IRVINE · 金融求职台</span>
+      </div>
+      <div class="meta" id="meta"></div>
+    </div>
+    <nav class="tabs" id="tabs" role="tablist" aria-label="页面">
+      <button type="button" role="tab" id="tab-overview" data-view="overview">总览</button>
+      <button type="button" role="tab" id="tab-jobs" data-view="jobs">职位</button>
+      <button type="button" role="tab" id="tab-companies" data-view="companies">公司地图</button>
+      <button type="button" role="tab" id="tab-resumes" data-view="resumes">简历版本</button>
+      <button type="button" role="tab" id="tab-skills" data-view="skills">技能差距</button>
+      <button type="button" role="tab" id="tab-visa" data-view="visa">签证</button>
+    </nav>
+  </header>
+
+  <main class="main">
+    <section class="view" id="view-overview" role="tabpanel" aria-labelledby="tab-overview"></section>
+    <section class="view" id="view-jobs" role="tabpanel" aria-labelledby="tab-jobs" hidden></section>
+    <section class="view" id="view-companies" role="tabpanel" aria-labelledby="tab-companies" hidden></section>
+    <section class="view" id="view-resumes" role="tabpanel" aria-labelledby="tab-resumes" hidden></section>
+    <section class="view" id="view-skills" role="tabpanel" aria-labelledby="tab-skills" hidden></section>
+    <section class="view" id="view-visa" role="tabpanel" aria-labelledby="tab-visa" hidden></section>
+  </main>
+
+  <div class="drawer-backdrop" id="drawer-backdrop" hidden></div>
+  <aside class="drawer" id="drawer" aria-label="职位详情" hidden></aside>
+  <div class="tooltip" id="tooltip" role="status" hidden></div>
+  <div class="toast" id="toast" role="status" hidden></div>
+</div>
+
+<script src="app.js"></script>

@@ -1,0 +1,11 @@
+# 定时抓取 + 打分（由 jobhunt-fetch.timer 触发）
+[Unit]
+Description=jobhunt fetch + score
+After=network-online.target
+
+[Service]
+Type=oneshot
+User=deploy
+WorkingDirectory=/opt/find_a_job
+EnvironmentFile=-/opt/find_a_job/.env
+ExecStart=/opt/find_a_job/.venv/bin/python -m jobhunt run

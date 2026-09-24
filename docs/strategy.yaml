@@ -1,0 +1,216 @@
+# ============================================================================
+# 求职战略的结构化版本 —— 给网站（python -m jobhunt web）画图用。
+# 叙述版在同目录的 STRATEGY.md / SKILL_GAP_PLAN.md / VISA_NOTES.md，两边改动要同步。
+# 调研日期 2026-09-24；出处见 docs/research/。
+# ============================================================================
+
+as_of: 2026-09-24
+thesis: 把交易研究工程化：数据管道 → 带成本的回测 → 参数搜索 → 实时监控 → 上线给用户用
+
+# 岗位方向匹配度（1-5，区间表示取决于具体公司/岗位）
+directions:
+  - key: quant_dev
+    fit: [4, 4]
+    stance: 主攻
+    titles: Quantitative Developer · Quant Engineer · Research Engineer
+    employers: PIMCO · Capital Group · Research Affiliates · Crabel
+    base: $120–195K
+    gap: C++、固收知识、很多岗要 3 年经验
+  - key: investment_analytics
+    fit: [4, 4]
+    stance: 主攻
+    titles: Investment Data Engineer · Portfolio Analytics · Technology Analyst
+    employers: Capital Group · PIMCO · Pacific Life · TCW
+    base: $110–150K
+    gap: 业绩归因、风险模型、固收术语；云数据栈
+  - key: fintech_swe
+    fit: [4, 4]
+    stance: 主攻
+    titles: Software Engineer I · Backend Engineer · SDE
+    employers: Acorns · Experian · PennyMac · Zest AI · Tala
+    base: $90–160K
+    gap: Java/Postgres 作品、账本与幂等、系统设计面试
+  - key: risk_data
+    fit: [3, 3]
+    stance: 可投
+    titles: Credit Risk Analyst · Data Scientist · ML Engineer
+    employers: Experian · Zest AI · Hyundai Capital · Tala · PennyMac
+    base: $100–150K
+    gap: 信贷领域知识（评分卡、WoE/IV、PSI）
+  - key: marketplace_econ
+    fit: [3, 3]
+    stance: 可投
+    titles: Economy / Pricing / Marketplace Analyst
+    employers: Riot Games · Blizzard · Whatnot（均待验证）
+    base: 未调研
+    gap: 岗位少、需要验证
+  - key: quant_research
+    fit: [2, 3]
+    stance: 冲刺
+    titles: Quantitative Researcher / Analyst
+    employers: PIMCO QRA · Research Affiliates · Pacific Life
+    base: $95–215K
+    gap: 看得见的统计严谨性、研究报告、和 PhD 竞争
+  - key: trading_systems
+    fit: [1, 3]
+    stance: 暂缓
+    titles: Trading Systems / Low-latency Engineer
+    employers: 南加州很少；Java 路线：PIMCO 交易技术
+    base: 芝加哥/纽约 $200–300K
+    gap: C++、并发与网络、FIX / 行情接入
+
+# 招聘窗口（2027 年入职）。日期是大致月份，用来看节奏，不是截止日
+hiring:
+  start: 2026-06-01
+  end: 2027-06-30
+  rows:
+    - label: 量化基金 / 做市（2027 届）
+      spans:
+        - {start: 2026-06-15, end: 2026-08-31, kind: open, note: 岗位集中开放}
+        - {start: 2026-09-01, end: 2026-12-31, kind: review, note: 滚动面试、发 offer}
+    - label: 资管具体职位
+      spans:
+        - {start: 2026-06-01, end: 2027-06-30, kind: rolling, note: 全年滚动}
+    - label: 资管 2027 暑期实习
+      spans:
+        - {start: 2026-09-01, end: 2026-10-31, kind: open, note: 9–10 月陆续开放}
+    - label: 金融科技
+      spans:
+        - {start: 2026-08-01, end: 2026-11-30, kind: open, note: 秋季一波}
+        - {start: 2027-01-01, end: 2027-03-31, kind: open, note: 春季一波}
+    - label: 银行科技 analyst（未验证）
+      spans:
+        - {start: 2026-08-01, end: 2026-10-31, kind: open, note: 实习转正后剩余名额}
+    - label: 轮岗项目入职
+      marks:
+        - {date: 2027-01-15, note: PennyMac 1 月批次}
+        - {date: 2027-04-15, note: Experian 4 月入职}
+        - {date: 2027-06-15, note: Experian / PennyMac 6 月}
+    - label: H-1B 抽签注册
+      marks:
+        - {date: 2027-03-10, note: FY2028 注册（3 月）}
+
+next_steps:
+  - 先把 OPT 交上去：I-765 必须在项目结束后 60 天内提交（日期见网站「签证」页的个人时间线）
+  - 马上投：南加州资管的具体职位、仍开放的应届 / 初级岗位、远程的金融科技岗
+  - 每天手写代码不用 AI（LeetCode + 重写自己系统的核心模块），把面试手感练回来
+  - 在 Mac 上跑 python -m jobhunt check 和 run，修正待验证的招聘接口配置
+  - 找 UCI 校友内推：PIMCO、Capital Group、Experian、Pacific Life
+  - 轮换私有仓库里泄露的 token；把本仓库改成 private
+
+questions:
+  - 现有简历：实习 / 工作经历、本科学校、GPA
+  - OPT 的 I-765 提交日期和你选的 EAD 开始日期
+  - EECS 215 项目里你负责的部分
+  - 更想先走量化还是金融科技（区别见下方对比）
+
+# 量化 vs 金融科技（回答 2026-09-24 的提问）
+quant_vs_fintech:
+  intro: 两者都和钱打交道。量化是拿钱去市场里博弈赚钱，金融科技是做让别人用钱的产品。
+  rows:
+    - {label: 做什么, quant: 用数据、统计和代码直接在市场里赚钱：找信号、做策略、搭研究和交易系统, fintech: 用软件做金融产品和服务：投资 App、支付、借贷、征信、银行系统}
+    - {label: 典型雇主, quant: 对冲基金、做市商、资管的量化团队（PIMCO、Capital Group 量化岗、Crabel）, fintech: Acorns、Experian、Zest AI、Tala、PennyMac、Robinhood、Coinbase}
+    - {label: 岗位, quant: 量化研究（找信号）· 量化开发（搭回测和交易基础设施）· 交易员, fintech: 后端 / 全栈工程师 · 数据工程 · 风控建模}
+    - {label: 怎么衡量你, quant: 研究和策略能不能赚钱（P&L），系统是否可靠, fintech: 产品和系统做得好不好：用户、稳定性、合规}
+    - {label: 面试考什么, quant: 概率统计、脑筋急转弯、Python / C++ 手写代码、项目深挖, fintech: LeetCode、系统设计、行为面}
+    - {label: 薪资, quant: 上限最高；资管量化开发约 $120–195K，顶级基金 $200–300K, fintech: 普通软件工程水平；南加州应届约 $90–160K}
+    - {label: 机会, quant: 名额少、门槛高；顶级公司集中在纽约 / 芝加哥，远程少, fintech: 岗位多、远程多、签证担保更常见}
+    - {label: 对你, quant: 最贴近你的兴趣（投机、博弈）；回测和事件研究是直接相关的证据, fintech: 你已经有 100+ 付费用户的产品，这是现在最硬的证据}
+  middle: 中间地带是资管公司的技术岗（PIMCO / Capital Group 的 SDE、投资数据工程）、交易平台（Robinhood、Coinbase）和信贷风控建模：做的是工程，但天天和市场数据、交易打交道。
+  advice: OPT 的失业计时从 EAD 开始日算起，所以建议两条线并行：金融科技和资管技术岗先拿到工作，赶上 H-1B 抽签；量化方向靠研究报告等作品持续积累。从资管技术岗内部转量化开发，是很常见的路径。
+
+# 各方向的硬要求 vs 你现在（have: yes / partial / no）
+requirements:
+  quant_dev:
+    - {item: 生产级 Python（pandas / NumPy 向量化）, have: "yes"}
+    - {item: 回测基础设施与行情数据管道, have: "yes"}
+    - {item: SQL 与关系建模, have: partial}
+    - {item: 测试、Git、Linux, have: "yes"}
+    - {item: C++（很多平台岗要求）, have: "no"}
+    - {item: 固收知识（PIMCO）/ 组合理论（Capital Group）, have: "no"}
+  investment_analytics:
+    - {item: Python + SQL 数据管道与数据质量, have: "yes"}
+    - {item: 仪表盘与服务, have: "yes"}
+    - {item: 云数据平台（Snowflake / Databricks / AWS）, have: "no"}
+    - {item: 业绩归因、跟踪误差、因子暴露, have: "no"}
+    - {item: 固收分析（久期 / 凸性 / OAS）, have: "no"}
+  fintech_swe:
+    - {item: 一门后端语言写到生产深度, have: "yes"}
+    - {item: 上线过的多用户产品（认证、付费、调度、测试）, have: "yes"}
+    - {item: Postgres（事务、隔离、迁移）, have: "no"}
+    - {item: AWS、CI/CD、Docker, have: "no"}
+    - {item: 账本、幂等、对账等金钱正确性模式, have: "no"}
+    - {item: Java 作品, have: partial}
+  risk_data:
+    - {item: Python、XGBoost 等建模, have: "yes"}
+    - {item: 模型监控（你的信号收益回填就是）, have: partial}
+    - {item: 大量 SQL 分析, have: partial}
+    - {item: 评分卡（分箱、WoE/IV）、AUC/KS、PSI, have: "no"}
+    - {item: 可解释性与公平借贷检验, have: "no"}
+  quant_research:
+    - {item: 安慰剂对照与随机对照组, have: "yes"}
+    - {item: walk-forward 样本外验证, have: "yes"}
+    - {item: 多重检验校正（deflated Sharpe 等）, have: "no"}
+    - {item: Newey-West 标准误、IC / t 值报告, have: "no"}
+    - {item: 书面研究报告, have: "no"}
+  trading_systems:
+    - {item: 实时监控服务（秒级）, have: partial}
+    - {item: C++ 或低延迟 Java, have: "no"}
+    - {item: 并发、网络（TCP/UDP、组播）, have: "no"}
+    - {item: 订单簿、FIX / ITCH 行情, have: "no"}
+  marketplace_econ:
+    - {item: 虚拟商品市场的供需与大户建模, have: "yes"}
+    - {item: 价格周期与异常量识别, have: "yes"}
+    - {item: 实验设计 / A-B 测试, have: "no"}
+
+# 补强作品（按优先级）
+portfolio:
+  - title: 严谨的研究报告
+    summary: 用公开数据（美股 / 加密）重跑信号框架：nested walk-forward、成本、试了多少组参数、deflated Sharpe、因子调整后 alpha、失败的信号
+    helps: [quant_dev, quant_research, investment_analytics]
+  - title: Java 限价订单簿 + 撮合引擎
+    summary: 价格-时间优先、部分成交、行情回放；JMH 基准与延迟分位数
+    helps: [trading_systems, quant_dev, fintech_swe]
+  - title: 信贷评分卡
+    summary: 公开贷款数据；评分卡 vs GBM、跨时间验证、PSI、SHAP 理由码、公平性检验
+    helps: [risk_data]
+  - title: SaaS 金融级升级
+    summary: Postgres 迁移、Docker、CI；复式账本 + 幂等 API + 日终对账；部署到 AWS
+    helps: [fintech_swe, investment_analytics]
+  - title: 固收小工具库
+    summary: 收益率曲线 bootstrap、久期 / 凸性、关键利率久期
+    helps: [investment_analytics, quant_dev]
+
+books:
+  - {title: Evidence-Based Technical Analysis（Aronson）, why: 从技术分析过渡到统计检验的桥梁}
+  - {title: A Practical Guide to Quantitative Finance Interviews（绿皮书）, why: 量化面试概率题}
+  - {title: Advances in Financial Machine Learning（López de Prado）, why: 回测与过拟合}
+  - {title: Trading and Exchanges（Harris）, why: 市场微观结构}
+  - {title: Bond Math（Donald Smith）, why: 投 PIMCO / Capital Group 前补固收}
+  - {title: Designing Data-Intensive Applications（Kleppmann）, why: 金融科技系统设计}
+  - {title: Intelligent Credit Scoring（Siddiqi）, why: 信贷评分卡}
+
+# 签证现状（不是法律意见）
+visa:
+  items:
+    - {title: 12 个月 OPT + 24 个月 STEM OPT, status: in_effect, meaning: 照常可用}
+    - {title: 失业上限 90 天（加 STEM 共 150 天）, status: in_effect, meaning: 从 EAD 生效日开始计}
+    - {title: STEM OPT 要求 E-Verify 雇主 + I-983, status: in_effect, meaning: 优先投 E-Verify 雇主}
+    - {title: 取消 duration of status 的新规, status: blocked, meaning: 2026-09-14 被全国禁令叫停，旧规则继续}
+    - {title: OPT 收费提案, status: pre_proposal, meaning: 已过白宫审查，金额未公布}
+    - {title: $100K H-1B 总统公告, status: blocked, meaning: 执行被撤销；从未适用于境内 F-1 转 H-1B}
+    - {title: "每个 cap H-1B 申请加收 $103,265", status: proposed, meaning: 最大变数；落地后 F-1 转 H-1B 也要交}
+    - {title: H-1B 按工资级别加权抽签, status: in_effect, meaning: 高薪岗位中签率更高}
+    - {title: 劳工部提高 prevailing wage, status: proposed, meaning: 新人工资门槛可能再提高}
+    - {title: Day-1 CPT, status: in_effect, meaning: SEVP 收紧，现在风险很高}
+  events:
+    - {date: 2025-09-19, note: $100K H-1B 总统公告签署}
+    - {date: 2025-12-29, note: 按工资加权抽签终规发布}
+    - {date: 2026-03-04, note: FY2027 注册开始（首次加权抽签）}
+    - {date: 2026-06-08, note: 法院撤销 $100K 费用的执行}
+    - {date: 2026-07-17, note: FY2027 名额用完；duration of status 新规发布}
+    - {date: 2026-08-25, note: "$103,265 费用提案发布"}
+    - {date: 2026-09-11, note: OPT 收费提案过白宫审查}
+    - {date: 2026-09-14, note: duration of status 新规被叫停}
+    - {date: 2026-09-24, note: $103K 提案评论期截止}
+    - {date: 2027-03-10, note: FY2028 H-1B 注册（预计 3 月）}

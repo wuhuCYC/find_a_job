@@ -65,3 +65,17 @@ profile/experience_bank.yaml ─────────────────
 - 公司优先级、招聘系统配置：`config/companies.yaml`
 
 改完直接 `python -m jobhunt score` 重新打分，不需要重新抓取。
+
+## 网站（`python -m jobhunt web`）
+
+| 文件 | 作用 |
+|---|---|
+| `jobhunt/web/data.py` | 把配置、素材库、`docs/strategy.yaml`、职位库、`private/profile.yaml` 里的日期拼成一个 JSON |
+| `jobhunt/web/server.py` | 标准库 HTTP 服务，只监听 127.0.0.1；写操作要带 `X-Jobhunt` 头 + JSON；慢操作（抓取、定制、预填）放后台线程 |
+| `jobhunt/web/export.py` | 导出单文件快照（CSS / JS / 数据全部内联），`--artifact` 版本不带 `<html>` 外壳 |
+| `jobhunt/web/static/` | `page.html` + `app.css` + `app.js`（原生 JS + 手写 SVG 图表，不依赖任何前端库） |
+
+六个页面：总览（匹配度、量化 vs 金融科技、招聘窗口）、职位（筛选、分数分布、打分分解、操作）、
+公司地图（LA / 橙县示意地图 + 卡片）、简历版本（30 条素材 × 7 个方向热力图）、技能差距、签证（个人 OPT 时间线）。
+
+部署到服务器：`deploy/`（systemd 服务 + 每天两次抓取的 timer + nginx 密码保护）。服务器模式（`--server`）会关掉浏览器预填。

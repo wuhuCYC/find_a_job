@@ -1,0 +1,12 @@
+# 每天洛杉矶时间 7:00 和 17:00 各抓一次
+[Unit]
+Description=jobhunt fetch twice a day
+
+[Timer]
+OnCalendar=*-*-* 07:00:00 America/Los_Angeles
+OnCalendar=*-*-* 17:00:00 America/Los_Angeles
+Persistent=true
+RandomizedDelaySec=10min
+
+[Install]
+WantedBy=timers.target

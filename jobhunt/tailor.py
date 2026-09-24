@@ -80,7 +80,8 @@ class TailorOutcome:
 
 def bank_as_prompt(bank: Bank) -> str:
     """素材库转成给模型看的 YAML（去掉 source 字段，省 token）。"""
-    data = bank.model_dump(exclude={"entries": {"__all__": {"facts": {"__all__": {"source"}}}}})
+    data = bank.model_dump(exclude={"entries": {"__all__": {"facts": {"__all__": {"source"}},
+                                                            "bullets": {"__all__": {"label"}}}}})
     return "# EXPERIENCE BANK (source of truth)\n" + yaml.safe_dump(data, allow_unicode=True, sort_keys=False, width=120)
 
 

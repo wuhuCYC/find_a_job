@@ -42,3 +42,5 @@ class ScoreResult:
     reasons: list[str]
     excluded: bool = False
     exclude_reason: str | None = None
+    # 分项得分（方向/技能/地区/职级/公司/加分/扣分），网站画分解条用
+    components: dict[str, float] = field(default_factory=dict)

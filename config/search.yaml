@@ -6,7 +6,7 @@
 regions:
   OC: 1.0          # 橙县：Irvine / Newport Beach / Costa Mesa / Santa Ana ...
   LA: 1.0          # 洛杉矶县 + 周边：Santa Monica / Pasadena / Burbank / Westlake Village ...
-  REMOTE_US: 0.8   # 美国境内远程（人在加州也能做）
+  REMOTE_US: 0.9   # 美国境内远程（可以接受）
   SD: 0.6          # 圣地亚哥
   BAY: 0.5         # 湾区
   CA_OTHER: 0.4    # 加州其他地方

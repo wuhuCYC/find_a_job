@@ -211,4 +211,13 @@ class Scorer:
             reasons=reasons,
             excluded=excluded,
             exclude_reason=exclude_reason,
+            components={
+                "archetype": round(arch_points, 1),
+                "skills": round(skill_points, 1),
+                "location": round(loc_points, 1),
+                "seniority": round(sen_points, 1),
+                "company": round(float(comp_points), 1),
+                "bonus": round(bonus, 1),
+                "penalty": round(-penalty, 1),
+            },
         )

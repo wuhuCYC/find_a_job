@@ -1,0 +1,16 @@
+# 网站服务：只监听 127.0.0.1:8765，由 nginx 反代（带密码）对外
+[Unit]
+Description=钱途求职台 (jobhunt web)
+After=network-online.target
+
+[Service]
+User=deploy
+WorkingDirectory=/opt/find_a_job
+EnvironmentFile=-/opt/find_a_job/.env
+# 把 jobs.example.com 换成你的域名
+ExecStart=/opt/find_a_job/.venv/bin/python -m jobhunt web --server --allow-host jobs.example.com --port 8765
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
