@@ -64,7 +64,7 @@ python -m jobhunt status <uid> interview --note "一面：回测系统深挖"
 ## 测试
 
 ```bash
-python -m pytest        # 127 个测试：解析、地点、职级、打分、防编造守卫、简历渲染、浏览器预填、网站、部署脚本
+python -m pytest        # 128 个测试：解析、地点、职级、打分、防编造守卫、简历渲染、浏览器预填、网站、部署脚本
 ```
 
 ## 隐私

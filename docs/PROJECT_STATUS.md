@@ -22,7 +22,7 @@
 - [x] 个人 OPT 时间线（从 private/profile.yaml 计算，不进 git）
 - [x] 用户确认：可接受远程（REMOTE_US 权重 0.9）；SaaS 100+ 付费用户已写入素材库；技能等级按自评下调
 - [x] 量化 vs 金融科技对比（STRATEGY.md 1.5 节 + 网站总览）
-- [x] 110 个测试（新增网站数据、导出、服务安全、浏览器冒烟测试）；v0.3 后 127 个（加上部署脚本、子路径）
+- [x] 110 个测试（新增网站数据、导出、服务安全、浏览器冒烟测试）；v0.3 后 128 个（加上部署脚本、子路径）
 
 ### v0.1：调研 + 工具骨架 ✅
 - [x] 读完用户 5 个项目仓库，提炼经历素材库（4 段经历、29 条 bullet，全部有事实出处，guard 校验通过）
@@ -42,7 +42,8 @@
 - ❓ 未验证的公司 ATS 配置需要 `check` 确认
 
 ## 下一步
-1. 用户在 Mac 上运行 `bash deploy/deploy_vps.sh`，再跑 `check` 看国内服务器能连上哪些招聘接口
+1. ✅ 2026-09-24 云端环境放行招聘网站后第一次真实抓取：119 个相关职位；定制了 Pacific Life SWE I、PIMCO Product Analyst
+1.5 修配置：TCW / PennyMac / 华美银行（iCIMS 域名没放行）、Cotality（Workday 422）、loanDepot（Jobvite 解析）、Whatnot（Ashby 404）；Coinbase 部分「远程」职位其实要求在 Charlotte 办公
 2. 用户核实简历里的数字和技术（private/cv_review.md）→ 补进素材库
 3. I-20 上的 OPT 开始日期、EAD 卡上的开始日 → private/profile.yaml
 4. 第一次真实抓取 → 修正 ATS 配置、校准打分权重

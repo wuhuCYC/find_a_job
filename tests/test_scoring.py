@@ -70,3 +70,11 @@ def test_prefilter(scorer):
     assert not scorer.prefilter("Quantitative Developer", ["London"])
     assert not scorer.prefilter("Senior Quant Developer", ["Irvine, CA"])
     assert not scorer.prefilter("Summer 2026 Intern", ["Irvine, CA"])
+
+
+def test_required_grad_year():
+    from jobhunt.scoring import required_grad_year
+    assert required_grad_year("Bachelor's degree in CS (Graduating class of 2027)") == 2027
+    assert required_grad_year("For students graduating in December 2026") == 2026
+    assert required_grad_year("Class of 2026 or class of 2027") is None
+    assert required_grad_year("Founded in 2027") is None

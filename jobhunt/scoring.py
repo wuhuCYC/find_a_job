@@ -7,6 +7,14 @@ from .config import CompanyConfig
 from .location import classify_locations
 from .models import Job, ScoreResult
 from .seniority import classify_seniority, min_years_required
+
+_CLASS_OF = re.compile(r"(?:graduating\s+class\s+of|class\s+of|graduating\s+in|graduation\s+(?:date\s+)?(?:in|between))\s+(?:\w+\s+)?(20\d\d)", re.I)
+
+
+def required_grad_year(text: str) -> int | None:
+    """JD 里限定的毕业年份（「Graduating class of 2027」）；只写了一个年份时才算限定。"""
+    years = {int(m.group(1)) for m in _CLASS_OF.finditer(text or "")}
+    return years.pop() if len(years) == 1 else None
 from .text import compile_keyword
 
 LEVEL_VALUE = {"expert": 1.0, "proficient": 0.85, "working": 0.6, "coursework": 0.3, "none": 0.0}
@@ -36,6 +44,9 @@ class Scorer:
         sen = search.get("seniority") or {}
         self.exclude_senior = sen.get("exclude_senior", True)
         prefs = profile.get("preferences") or {}
+        # 毕业年份（从 program_end_date 取）：JD 限定「Class of 2027」而你是 2026 届时扣分
+        end = str((profile.get("work_authorization") or {}).get("program_end_date") or "")
+        self.grad_year = int(end[:4]) if end[:4].isdigit() else None
         self.include_internships = prefs.get("include_internships", sen.get("include_internships", False))
         self.seniority_scores = sen.get("scores") or {"entry": 10, "intern": 8, "unknown": 6, "mid": 4}
         self.weights = search.get("weights") or {"archetype": 40, "skills": 25, "location": 15, "seniority": 10, "company": 10}
@@ -178,6 +189,12 @@ class Scorer:
                     flags.append(f"yoe>={years}")
                     reasons.append(f"经验要求：{years}+ 年（-{rule['penalty']}）")
                     break
+
+        req_year = required_grad_year(job.description)
+        if self.grad_year and req_year and req_year != self.grad_year:
+            penalty += 25
+            flags.append(f"class_of_{req_year}")
+            reasons.append(f"⚠ 只招 {req_year} 届毕业生，你是 {self.grad_year} 届（-25）")
 
         # 5) 公司
         company = self.companies.get(job.company_key)
