@@ -27,26 +27,27 @@ version: 1
 # 每个方向一句话定位（tailor 会在此基础上按 JD 微调，但不会新增事实）
 summaries:
   quant_dev: >-
-    MS EECS graduate of UC Irvine (2026) who builds trading research infrastructure end to end —
+    M.Eng. EECS graduate of UC Irvine (2026) who builds trading research infrastructure end to end —
     data pipelines, vectorized signal libraries, cost-aware backtesters and walk-forward
     parameter search — mainly in Python, with Java experience.
   quant_research: >-
-    MS EECS graduate of UC Irvine (2026) who turns market intuition into testable event signals and
+    M.Eng. EECS graduate of UC Irvine (2026) who turns market intuition into testable event signals and
     judges them against placebo and random-entry baselines, out of sample and by regime.
   trading_systems: >-
-    MS EECS graduate of UC Irvine (2026) who has shipped scheduled and real-time market-monitoring
+    M.Eng. EECS graduate of UC Irvine (2026) who has shipped scheduled and real-time market-monitoring
     services — polling, alerting, de-duplication and failure isolation — for live trading decisions.
   fintech_swe: >-
-    MS EECS graduate of UC Irvine (2026) who built, launched and monetized a multi-user SaaS with 100+
+    M.Eng. EECS graduate of UC Irvine (2026) with industry experience building an airline-billing ERP
+    system, who also built, launched and monetized a multi-user SaaS with 100+
     paying subscribers (Flask, React, JWT auth, background jobs, 375 automated tests), plus trading data systems.
   risk_data: >-
-    MS EECS graduate of UC Irvine (2026) with hands-on experience in feature engineering, event studies,
+    M.Eng. EECS graduate of UC Irvine (2026) with hands-on experience in feature engineering, event studies,
     out-of-sample validation and time-series classification on market and behavioral data.
   investment_analytics: >-
-    MS EECS graduate of UC Irvine (2026) who builds investment data pipelines, sector and regime analytics
+    M.Eng. EECS graduate of UC Irvine (2026) who builds investment data pipelines, sector and regime analytics
     and performance reporting (Sharpe, drawdown, attribution by tier) for trading research.
   marketplace_econ: >-
-    MS EECS graduate of UC Irvine (2026) who has spent a year modeling a real virtual-goods market —
+    M.Eng. EECS graduate of UC Irvine (2026) who has spent a year modeling a real virtual-goods market —
     supply, demand, large-holder inventories and price cycles — with production data systems.
 
 # ----------------------------------------------------------------------------
@@ -66,11 +67,15 @@ skills:
   - {name: Optuna, level: proficient, group: Data & ML}
   - {name: scikit-learn, level: working, group: Data & ML}
   - {name: TensorFlow, level: working, group: Data & ML}       # 课程项目 LSTM/GRU/Transformer（Keras）
+  - {name: PyTorch, level: working, group: Data & ML}          # 简历技能栏（2024-12 版）
+  - {name: OpenCV, level: working, group: Data & ML}           # 简历技能栏（2024-12 版）
+  - {name: NLP, level: working, group: Data & ML}              # 金融报告 / 法律文书信息抽取（简历）
   - {name: hmmlearn, level: working, group: Data & ML}
   - {name: Parquet, level: proficient, group: Data & ML}
   - {name: FastAPI, level: working, group: Backend}
   - {name: Flask, level: working, group: Backend}
   - {name: SQLAlchemy, level: working, group: Backend}
+  - {name: Elasticsearch, level: working, group: Backend}      # 知合科技 ERP（简历）
   - {name: SQLite, level: proficient, group: Backend}
   - {name: WebSocket, level: proficient, group: Backend}
   - {name: REST APIs, level: proficient, group: Backend}
@@ -93,34 +98,136 @@ spoken_languages:
   - {name: English, level: TODO}                               # TODO: Fluent / Professional
 
 # ----------------------------------------------------------------------------
-# 教育（TODO 很多，请补全；GPA ≥ 3.5 建议写上）
+# 教育（来源：用户简历 2024-12 版；UCI 的学位名称按简历写作 MEng，请以毕业证为准）
 # ----------------------------------------------------------------------------
 education:
   - id: uci_ms
     institution: University of California, Irvine
-    degree: MS
+    degree: MEng
     area: Electrical Engineering and Computer Science
     location: Irvine, CA
-    start: TODO          # 例如 2024-09
+    start: 2025-09        # 按 EECS 215 在 2025 秋季推断；请确认
     end: 2026-08
     gpa: TODO
     coursework:
       - EECS 215 Data Mining & Modeling
       # TODO: 补上概率统计、机器学习、算法、数据库、分布式系统等相关课
   - id: undergrad_bs
-    institution: TODO
-    degree: BS
+    institution: University of Nottingham Ningbo China
+    degree: BSc
     area: Computer Science
-    location: TODO
-    start: TODO
-    end: TODO
-    gpa: TODO
+    location: Ningbo, China
+    start: 2021-09
+    end: 2025             # TODO 确认毕业月份
+    gpa: 3.7/4.0          # 来源：用户简历（2024-12 版）
     coursework: []
 
 # ----------------------------------------------------------------------------
 # 经历条目。kind: project / experience / research
 # ----------------------------------------------------------------------------
 entries:
+
+  # ==========================================================================
+  # 以下 3 段工作经历来自用户简历（2024-12 版）。简历里带「e.g. / or ..., depending on」的
+  # 不确定说法和各项百分比、日交易量，等用户确认后再加（清单在 private/cv_review.md）。
+  # ==========================================================================
+  - id: zhihe_erp
+    kind: experience
+    title: ERP System Development Engineer
+    role: ERP System Development Engineer
+    org: Zhihe Tech Co., Ltd.
+    location: ""
+    start: 2023-10
+    end: TODO             # 简历写的是 Present（2024-12 版）；请确认结束月份
+    stack: [Elasticsearch]
+    facts:
+      - id: f_scope
+        text: >-
+          Designed and developed a new ERP system for airline billing, with data integration
+          across multiple platforms.
+        source: 用户简历 CV-ChenYancheng1201.pdf（2024-12 版，2026-09-24 提供）
+      - id: f_search
+        text: Implemented Elasticsearch to enable advanced querying capabilities and faster data retrieval.
+        source: 用户简历 CV-ChenYancheng1201.pdf（2024-12 版，2026-09-24 提供）
+      - id: f_testing
+        text: Conducted system testing and performance optimizations.
+        source: 用户简历 CV-ChenYancheng1201.pdf（2024-12 版，2026-09-24 提供）
+    bullets:
+      - id: zhihe.billing
+        label: 航空结算 ERP 系统
+        text: Designed and developed a new ERP system for airline billing, integrating data across multiple platforms.
+        facts: [f_scope]
+        weights: {fintech_swe: 3, investment_analytics: 2, risk_data: 1, quant_dev: 1, trading_systems: 1, marketplace_econ: 1}
+      - id: zhihe.search
+        label: Elasticsearch 查询
+        text: Implemented Elasticsearch to enable advanced querying and faster data retrieval.
+        facts: [f_search]
+        weights: {fintech_swe: 2, investment_analytics: 2, quant_dev: 1}
+      - id: zhihe.testing
+        label: 系统测试与性能优化
+        text: Ran system testing and performance optimization for the ERP system.
+        facts: [f_scope, f_testing]
+        weights: {fintech_swe: 1, trading_systems: 1}
+
+  - id: guangzhou_web
+    kind: experience
+    title: Software Development Engineer
+    role: Software Development Engineer
+    org: Guangzhou Digital An Meng Co., Ltd.
+    location: ""
+    start: 2023-06
+    end: 2023-10
+    stack: []             # 前端框架待确认（简历写的是「React.js (or Vue.js ...)」）
+    facts:
+      - id: f_web
+        text: >-
+          Participated in developing and deploying the company's website; built dynamic and
+          interactive UI components.
+        source: 用户简历 CV-ChenYancheng1201.pdf（2024-12 版，2026-09-24 提供）
+      - id: f_api
+        text: Collaborated with the backend team to integrate APIs for dynamic data fetching and real-time updates.
+        source: 用户简历 CV-ChenYancheng1201.pdf（2024-12 版，2026-09-24 提供）
+    bullets:
+      - id: gz.api
+        label: 前后端 API 对接
+        text: Worked with the backend team to integrate APIs for dynamic data fetching and real-time updates.
+        facts: [f_api]
+        weights: {fintech_swe: 2, marketplace_econ: 1}
+      - id: gz.ui
+        label: 交互组件 + 上线
+        text: Built dynamic, interactive UI components for the company website and helped deploy it.
+        facts: [f_web]
+        weights: {fintech_swe: 1}
+
+  - id: smart_medicine_lab
+    kind: experience
+    title: Data Analyst & Research Assistant
+    role: Data Analyst & Research Assistant
+    org: Smart Medicine Laboratory
+    location: ""
+    start: 2023-10
+    end: 2024-09
+    stack: []
+    facts:
+      - id: f_sleep
+        text: >-
+          Applied machine learning to identify sleep patterns from wearable-sensor heart-rate data,
+          developing algorithms to distinguish sleep stages.
+        source: 用户简历 CV-ChenYancheng1201.pdf（2024-12 版，2026-09-24 提供）
+      - id: f_pipeline
+        text: Data pre-processing, rapid analysis and data fusion for personal health monitoring systems.
+        source: 用户简历 CV-ChenYancheng1201.pdf（2024-12 版，2026-09-24 提供）
+    bullets:
+      - id: lab.sleep
+        label: 心率数据分睡眠阶段
+        text: Applied machine learning to classify sleep stages from wearable-sensor heart-rate data.
+        facts: [f_sleep]
+        weights: {risk_data: 2, quant_research: 1, investment_analytics: 1}
+      - id: lab.fusion
+        label: 数据预处理与融合
+        text: Built data pre-processing, analysis and data-fusion steps for wearable health monitoring.
+        facts: [f_pipeline]
+        weights: {risk_data: 2, investment_analytics: 1, quant_dev: 1}
 
   # ==========================================================================
   - id: cs2_market_platform
@@ -552,6 +659,75 @@ entries:
         weights: {fintech_swe: 2, quant_dev: 2, trading_systems: 2}
 
   # ==========================================================================
+  - id: fintech_eval
+    kind: project
+    title: AI-Powered FinTech Evaluation System
+    role: Team Leader
+    location: ""
+    start: 2023-09
+    end: 2024-06
+    stack: []
+    facts:
+      - id: f_system
+        text: Led the team that designed and developed an AI-driven evaluation system for insurance eligibility.
+        source: 用户简历 CV-ChenYancheng1201.pdf（2024-12 版，2026-09-24 提供）
+      - id: f_nlp
+        text: >-
+          Developed Natural Language Processing (NLP) algorithms to extract and interpret data from
+          unstructured financial reports and legal documents.
+        source: 用户简历 CV-ChenYancheng1201.pdf（2024-12 版，2026-09-24 提供）
+      - id: f_rank
+        text: Top 5 ranking in the Computer Science Department competition.
+        source: 用户简历 CV-ChenYancheng1201.pdf（2024-12 版，2026-09-24 提供）
+    bullets:
+      - id: fte.system
+        label: 保险资格评估系统（队长，系里前 5）
+        text: >-
+          Led a team building an AI-driven insurance-eligibility evaluation system that placed in the
+          Top 5 of the Computer Science Department competition.
+        facts: [f_system, f_rank]
+        weights: {fintech_swe: 3, risk_data: 3, investment_analytics: 1}
+      - id: fte.nlp
+        label: 金融报告 / 法律文书信息抽取
+        text: >-
+          Developed NLP algorithms to extract and interpret data from unstructured financial reports
+          and legal documents.
+        facts: [f_nlp]
+        weights: {investment_analytics: 3, fintech_swe: 2, risk_data: 2, quant_research: 1}
+
+  - id: road_damage
+    kind: research
+    title: Road Damage Detection System
+    role: Summer Research Intern
+    location: ""
+    start: 2024-06
+    end: TODO             # 简历写的是 Present（2024-12 版）；请确认结束月份
+    stack: []             # 用的框架待确认
+    facts:
+      - id: f_aug
+        text: >-
+          Data augmentation (rotation, tiling) increased the average F1-score from 55.14% to 56.98%
+          across diverse test sets.
+        source: 用户简历 CV-ChenYancheng1201.pdf（2024-12 版，2026-09-24 提供）
+      - id: f_arch
+        text: >-
+          Backbone modifications and attention mechanisms (ResNet, ShuffleNet, iRMB, MobileViT) to
+          improve detection precision; tested on RDD2022 and crowdsourced datasets.
+        source: 用户简历 CV-ChenYancheng1201.pdf（2024-12 版，2026-09-24 提供）
+    bullets:
+      - id: rdd.aug
+        label: 数据增强提升 F1
+        text: Raised average F1 from 55.14% to 56.98% across test sets with rotation and tiling data augmentation.
+        facts: [f_aug]
+        weights: {risk_data: 1, quant_research: 1}
+      - id: rdd.arch
+        label: 骨干网络与注意力模块对比
+        text: >-
+          Tested backbone and attention-module variants (ResNet, ShuffleNet, iRMB, MobileViT) on
+          RDD2022 and crowdsourced road-damage data.
+        facts: [f_arch]
+        weights: {risk_data: 1}
+
   - id: uci_mr_collaboration
     kind: research
     title: Predicting Intervention Timing in Mixed-Reality Collaboration
@@ -603,20 +779,3 @@ entries:
           imbalance for rare "intervention-needed" windows.
         facts: [f_method]
         weights: {risk_data: 2, quant_research: 1}
-
-  # ==========================================================================
-  # TODO: 如果你有实习 / 助教 / 研究助理 / 在国内的工作经历，按下面格式加一条 kind: experience。
-  #       有真实雇主的经历在简历上权重最高，一定要写。
-  # - id: intern_xxx
-  #   kind: experience
-  #   title: Software Engineering Intern
-  #   role: Software Engineering Intern
-  #   org: 公司英文名
-  #   location: City, Country
-  #   start: 2024-06
-  #   end: 2024-09
-  #   stack: [Java, Spring Boot, MySQL]
-  #   facts:
-  #     - {id: f1, text: "...", source: "自述"}
-  #   bullets:
-  #     - {id: intern.x1, text: "...", facts: [f1], weights: {fintech_swe: 3}}

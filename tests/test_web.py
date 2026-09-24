@@ -281,6 +281,7 @@ def test_live_site_under_subpath(server):
             page.on("pageerror", lambda e: errors.append(str(e)))
             page.on("response", lambda r: failed.append(r.url) if r.status >= 400 and "127.0.0.1" in r.url else None)
             page.goto(f"http://127.0.0.1:{proxy.server_address[1]}/jobs/")
+            page.wait_for_selector("#view-overview .fit-row")   # 数据加载完才会渲染；先点 tab 会被初始化切回总览
             page.click("#tab-jobs")
             page.click("#job-results tbody tr")
             drawer = page.locator("#drawer")

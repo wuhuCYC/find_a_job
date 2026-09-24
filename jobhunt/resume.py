@@ -99,9 +99,20 @@ def select_base(bank: Bank, archetype: str, max_bullets: int = 13, per_entry: in
                 scored.append((0, e, [(b, 0) for b in fill]))
                 have += len(fill)
 
-    # 全局按权重分配名额，保证每段经历至少 2 条（如果它有 2 条）
-    picked: dict[str, list] = {e.id: top[: min(2, len(top))] for _, e, top in scored}
-    budget = max_bullets - sum(len(v) for v in picked.values())
+    # 按排名给每段经历至少 2 条（如果它有 2 条）；名额不够时排名靠后的整段不放，
+    # 比每段都挤进来、最后被删成一条要好
+    picked: dict[str, list] = {}
+    budget = max_bullets
+    kept = []
+    for item in scored:
+        _, e, top = item
+        need = min(2, len(top))
+        if need > budget:
+            continue
+        picked[e.id] = top[:need]
+        budget -= need
+        kept.append(item)
+    scored = kept
     extras = sorted(
         ((w, e.id, b) for _, e, top in scored for b, w in top[2:]),
         key=lambda x: -x[0],
@@ -201,6 +212,9 @@ def to_rendercv(plan: ResumePlan, bank: Bank, profile: dict, include_summary: bo
         e = pe.entry
         start, end = _clean_date(e.start), _clean_date(e.end)
         dates = {k: v for k, v in (("start_date", start), ("end_date", end)) if v}
+        if start and not end:
+            # 只有开始日期时 RenderCV 会写成「– present」；结束日期没确认就不写日期，免得声称还在职
+            dates = {}
         if e.kind == "experience":
             item = {"company": e.org or e.title, "position": e.role or e.title, **dates, "highlights": pe.texts}
             if e.location:
