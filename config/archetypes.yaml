@@ -1,0 +1,228 @@
+# ============================================================================
+# 岗位方向（archetype）定义 —— 打分器用它判断一个 JD 属于哪一类，
+# 基础简历生成器用它决定 section 顺序和 bullet 权重。
+#
+# title_keywords：出现在职位名里就强烈指向该方向（小写匹配，词边界）
+# desc_keywords ：出现在 JD 正文里的相关词（每命中一个加分，有上限）
+# 所有关键词都是小写、按词边界匹配；可以写正则（以 re: 开头）。
+# ============================================================================
+
+quant_dev:
+  label: Quant Developer / Research Engineer
+  label_zh: 量化开发 / 研究工程师
+  title_keywords:
+    - quantitative developer
+    - quant developer
+    - quantitative software
+    - quant software
+    - quantitative engineer
+    - quant engineer
+    - research engineer
+    - strategy developer
+    - algorithmic
+    - "re:\\balgo\\b"
+    - quantitative technologist
+    - investment engineer
+  desc_keywords:
+    - backtest
+    - backtesting
+    - alpha
+    - signal
+    - systematic
+    - portfolio construction
+    - time series
+    - research platform
+    - factor
+    - quantitative research
+    - trading strategies
+    - pandas
+    - numpy
+    - simulation
+    - optimization
+
+quant_research:
+  label: Quantitative Researcher / Analyst
+  label_zh: 量化研究 / 量化分析
+  title_keywords:
+    - quantitative researcher
+    - quant researcher
+    - quantitative research
+    - quantitative analyst
+    - quant analyst
+    - "re:\\bquant\\b.*\\banalyst\\b"
+    - quantitative strategist
+    - research analyst
+  desc_keywords:
+    - statistics
+    - statistical
+    - econometrics
+    - alpha research
+    - predictive
+    - factor model
+    - hypothesis
+    - regression
+    - stochastic
+    - probability
+    - machine learning
+    - out-of-sample
+    - signals
+    - phd
+
+trading_systems:
+  label: Trading Systems / Real-time Engineer
+  label_zh: 交易系统 / 实时系统工程师
+  title_keywords:
+    - trading systems
+    - trading system
+    - execution
+    - low latency
+    - low-latency
+    - market data
+    - electronic trading
+    - trading platform
+    - trading technology
+    - order management
+    - "re:\\boms\\b"
+  desc_keywords:
+    - latency
+    - order book
+    - exchange
+    - fix protocol
+    - "re:\\bfix\\b"
+    - market data
+    - real-time
+    - realtime
+    - multithreading
+    - concurrency
+    - kdb
+    - c++
+    - trading desk
+    - traders
+    - execution
+
+fintech_swe:
+  label: Fintech Backend / Full-stack Engineer
+  label_zh: 金融科技后端 / 全栈工程师
+  title_keywords:
+    - software engineer
+    - software developer
+    - software development engineer
+    - "re:\\bsde\\b"
+    - technology analyst
+    - solutions engineer
+    - backend
+    - back-end
+    - full stack
+    - full-stack
+    - platform engineer
+    - application developer
+    - api engineer
+  desc_keywords:
+    - payments
+    - payment
+    - ledger
+    - brokerage
+    - lending
+    - banking
+    - transactions
+    - wallet
+    - card
+    - fraud
+    - kyc
+    - compliance
+    - mortgage
+    - loan
+    - credit
+    - investing
+    - financial services
+    - fintech
+    - microservices
+    - api
+
+risk_data:
+  label: Risk / Credit / Data Scientist
+  label_zh: 风控 / 信贷 / 数据科学
+  title_keywords:
+    - data scientist
+    - risk analyst
+    - credit risk
+    - risk analytics
+    - fraud
+    - model risk
+    - decision science
+    - underwriting
+    - model development
+    - risk modeling
+    - machine learning engineer
+    - "re:\\bml engineer\\b"
+  desc_keywords:
+    - credit
+    - risk model
+    - scorecard
+    - probability of default
+    - "re:\\bpd\\b"
+    - "re:\\blgd\\b"
+    - fraud detection
+    - underwriting
+    - loss forecasting
+    - cecl
+    - logistic regression
+    - xgboost
+    - model validation
+    - feature engineering
+    - a/b test
+
+investment_analytics:
+  label: Investment / Portfolio Analytics Engineer
+  label_zh: 资管投资数据 / 组合分析工程师
+  title_keywords:
+    - investment analytics
+    - portfolio analytics
+    - investment data
+    - performance analyst
+    - performance analytics
+    - investment technology
+    - portfolio analyst
+    - fixed income analytics
+    - investment systems
+    - data engineer
+    - analytics engineer
+  desc_keywords:
+    - fixed income
+    - portfolio
+    - attribution
+    - benchmark
+    - duration
+    - yield curve
+    - asset management
+    - holdings
+    - risk analytics
+    - investment professionals
+    - portfolio managers
+    - performance measurement
+    - securities
+    - equities
+
+marketplace_econ:
+  label: Marketplace / Virtual Economy / Pricing
+  label_zh: 交易市场 / 虚拟经济 / 定价
+  title_keywords:
+    - economy
+    - economist
+    - monetization
+    - pricing
+    - marketplace
+    - commerce
+  desc_keywords:
+    - virtual economy
+    - in-game economy
+    - in-game
+    - virtual goods
+    - pricing
+    - marketplace
+    - auction
+    - collectibles
+    - trading cards
+    - supply and demand
+    - resale
+    - player economy

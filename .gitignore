@@ -1,0 +1,26 @@
+# 个人隐私：真实联系方式、签证身份、原始简历都放 private/，永远不进 git
+private/
+# 生成物：定制简历 PDF、报告、数据库
+output/
+data/
+*.db
+*.sqlite
+
+# 本地密钥
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+*.egg-info/
+
+# RenderCV 默认输出目录
+rendercv_output/
+
+# 编辑器 / 系统
+.DS_Store
+.idea/
+.vscode/

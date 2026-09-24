@@ -1,0 +1,580 @@
+# ============================================================================
+# 经历素材库（Experience Bank）— 所有简历版本的唯一事实来源
+# ============================================================================
+#
+# 规则（tailor 程序会强制执行，见 jobhunt/guard.py）：
+#   1. 每条 bullet 都必须是真的、你能在面试里讲 5 分钟的。
+#   2. bullet 里出现的每个数字，都必须能在它引用的 facts 里找到（数字守卫）。
+#   3. 定制简历只能「挑选 / 重排 / 改写措辞」，不能新增事实、数字或技术栈。
+#   4. weights：0-3，越高越适合放进该方向的简历；0 或不写 = 不放。
+#   5. 标了 TODO 的地方需要你补充或确认；确认后删掉 TODO 字样。
+#
+# 岗位方向（archetype）定义见 config/archetypes.yaml：
+#   quant_dev            量化开发 / 研究工程师
+#   quant_research       量化研究 / 量化分析
+#   trading_systems      交易系统 / 实时系统工程师
+#   fintech_swe          金融科技后端 / 全栈工程师
+#   risk_data            风控 / 信贷 / 数据科学
+#   investment_analytics 资管投资数据 / 组合分析工程师
+#   marketplace_econ     交易市场 / 虚拟经济 / 定价分析
+#
+# 注意：这个文件是「简历级」内容，可以给雇主看。
+#       策略阈值、私有参数、API token 一律不写进来。
+# ============================================================================
+
+version: 1
+
+# 每个方向一句话定位（tailor 会在此基础上按 JD 微调，但不会新增事实）
+summaries:
+  quant_dev: >-
+    MS EECS candidate at UC Irvine who builds trading research infrastructure end to end —
+    data pipelines, vectorized signal libraries, cost-aware backtesters and walk-forward
+    parameter search — mainly in Python, with Java experience.
+  quant_research: >-
+    MS EECS candidate at UC Irvine who turns market intuition into testable event signals and
+    judges them against placebo and random-entry baselines, out of sample and by regime.
+  trading_systems: >-
+    MS EECS candidate at UC Irvine who has shipped scheduled and real-time market-monitoring
+    services — polling, alerting, de-duplication and failure isolation — for live trading decisions.
+  fintech_swe: >-
+    MS EECS candidate at UC Irvine who has built and deployed a multi-user fintech-style SaaS
+    (Flask, React, JWT auth, paid tiers, background jobs, 375 automated tests) plus trading data systems.
+  risk_data: >-
+    MS EECS candidate at UC Irvine with hands-on experience in feature engineering, event studies,
+    out-of-sample validation and time-series classification on market and behavioral data.
+  investment_analytics: >-
+    MS EECS candidate at UC Irvine who builds investment data pipelines, sector and regime analytics
+    and performance reporting (Sharpe, drawdown, attribution by tier) for trading research.
+  marketplace_econ: >-
+    MS EECS candidate at UC Irvine who has spent a year modeling a real virtual-goods market —
+    supply, demand, large-holder inventories and price cycles — with production data systems.
+
+# ----------------------------------------------------------------------------
+# 技能（level: expert / proficient / working / coursework / none）
+# 打分器用它判断 JD 技能匹配度；tailor 只能从这里挑技能名。
+# TODO: 请逐个确认 level，尤其 Java、C++、SQL、AWS、Docker。
+# ----------------------------------------------------------------------------
+skills:
+  - {name: Python, level: expert, group: Languages}
+  - {name: Java, level: proficient, group: Languages}          # 你自述熟练；建议补一个 Java 作品证明
+  - {name: SQL, level: proficient, group: Languages}
+  - {name: JavaScript, level: working, group: Languages}
+  - {name: C++, level: coursework, group: Languages}           # TODO 确认
+  - {name: pandas, level: expert, group: Data & ML}
+  - {name: NumPy, level: proficient, group: Data & ML}
+  - {name: Optuna, level: proficient, group: Data & ML}
+  - {name: scikit-learn, level: working, group: Data & ML}
+  - {name: TensorFlow, level: working, group: Data & ML}       # 课程项目 LSTM/GRU/Transformer（Keras）
+  - {name: hmmlearn, level: working, group: Data & ML}
+  - {name: Parquet, level: proficient, group: Data & ML}
+  - {name: FastAPI, level: proficient, group: Backend}
+  - {name: Flask, level: proficient, group: Backend}
+  - {name: SQLAlchemy, level: proficient, group: Backend}
+  - {name: SQLite, level: proficient, group: Backend}
+  - {name: WebSocket, level: proficient, group: Backend}
+  - {name: REST APIs, level: proficient, group: Backend}
+  - {name: APScheduler, level: proficient, group: Backend}
+  - {name: JWT, level: proficient, group: Backend}
+  - {name: React, level: working, group: Frontend}
+  - {name: Vite, level: working, group: Frontend}
+  - {name: Linux, level: proficient, group: Infra & Tools}
+  - {name: systemd, level: working, group: Infra & Tools}
+  - {name: nginx, level: working, group: Infra & Tools}
+  - {name: Git, level: proficient, group: Infra & Tools}
+  - {name: pytest, level: proficient, group: Infra & Tools}
+  - {name: Docker, level: none, group: Infra & Tools}          # TODO 如果用过就改
+  - {name: AWS, level: none, group: Infra & Tools}             # TODO 如果用过就改
+  - {name: LLM APIs, level: proficient, group: Infra & Tools}  # Claude / GLM-4V 视觉接口
+  - {name: Claude Code, level: expert, group: Infra & Tools}
+
+spoken_languages:
+  - {name: Mandarin, level: Native}
+  - {name: English, level: TODO}                               # TODO: Fluent / Professional
+
+# ----------------------------------------------------------------------------
+# 教育（TODO 很多，请补全；GPA ≥ 3.5 建议写上）
+# ----------------------------------------------------------------------------
+education:
+  - id: uci_ms
+    institution: University of California, Irvine
+    degree: MS
+    area: Electrical Engineering and Computer Science
+    location: Irvine, CA
+    start: TODO          # 例如 2024-09
+    end: TODO            # 例如 2026-06（在读写预计毕业时间）
+    gpa: TODO
+    coursework:
+      - EECS 215 Data Mining & Modeling
+      # TODO: 补上概率统计、机器学习、算法、数据库、分布式系统等相关课
+  - id: undergrad_bs
+    institution: TODO
+    degree: BS
+    area: Computer Science
+    location: TODO
+    start: TODO
+    end: TODO
+    gpa: TODO
+    coursework: []
+
+# ----------------------------------------------------------------------------
+# 经历条目。kind: project / experience / research
+# ----------------------------------------------------------------------------
+entries:
+
+  # ==========================================================================
+  - id: cs2_market_platform
+    kind: project
+    title: CS2 Item Market Research & Signal Platform
+    role: Independent project
+    location: ""
+    start: 2026-03
+    end: present          # TODO 确认；如果已停更改成 2026-07
+    url: ""               # 私有仓库；公开前务必清理 token（见 docs/PROJECT_PACKAGING.md）
+    stack: [Python, pandas, NumPy, JavaScript, REST APIs, Parquet, Linux, SQLite]
+    facts:
+      - id: f_scale
+        text: >-
+          Python + JavaScript codebase of about 57K lines (47,738 Python + 9,860 JS, 170 files,
+          counted 2026-07-02): ~48K lines of Python and ~10K lines of JS.
+        source: csgo-agent@v6-phase2-3-stats-buypoints
+      - id: f_universe
+        text: >-
+          Daily OHLCV store for 2,430 instruments with up to 1,099 daily bars (~3 years); listing
+          (supply) and buy-order (demand) daily history for 2,012 items; monitored universe expanded
+          to all 1,892 weapon skins; earlier 918-item watchlist with ~1,010 bars each.
+        source: csgo-agent docs/PROJECT_STATUS.md (V5.1, V20), zhuang_trapped/HANDOFF.md
+      - id: f_walkforward
+        text: >-
+          Walk-forward 70/30 train/test backtest over the 918-item watchlist; price-tier-specific
+          signal weights lifted the out-of-sample hit rate (7-day return >= 8%) of alerted signals
+          (score >= 55) from 24.5% to 29.5%; test signals 2,077 -> 3,274; an anomalous rally window
+          was excluded.
+        source: csgo-agent docs/PROJECT_STATUS.md V5.1 (2026-03-12)
+      - id: f_methodology_fix
+        text: >-
+          Backtest methodology audit (2026-04-12): made correlated "quiet consolidation" features
+          mutually exclusive (max stacked score 83 -> 25), extended per-item cooldown from 7 to 14
+          days to reduce overlapping samples, excluded a full bull-run window, and used price-tier
+          success thresholds.
+        source: csgo-agent commit 6ae8ac4
+      - id: f_event_study
+        text: >-
+          Pullback-to-cost event signal made real-time (signal day = pullback confirmation day,
+          no look-ahead): 13,671 events across 1,190 instruments over 3 years. 14-day hit rate 46.0%
+          vs 33.3% for a placebo "ordinary dip" signal and 29.0% for the all-days baseline; +11 to
+          +16 percentage points in every price tier; 30-day hit rate 52.0% vs 41.9%. Edge vanished
+          during a market-structure shock (43.5% vs placebo 44.9%). Stop-loss overlays lowered hit
+          rates by 2-5 percentage points.
+        source: csgo-agent analysis/zhuang_trapped/HANDOFF.md (v0.3, 2026-06-09)
+      - id: f_paper_trading
+        text: >-
+          Paper-trading harness: several signal sources plus a random-entry control group (1 random
+          trade per day from the same pool), 1 unit per trade, 7-day trade-hold constraint, two-stage
+          exits (reduce half, then exit). July 2026 review: monthly returns ranged from +10.9% to
+          -14.4% and random entries beat all 11 signal sources in the recent regime, so a
+          market-regime gate became the top priority.
+        source: csgo-agent analysis/paper_trader.py, docs/PROJECT_STATUS.md (2026-07-02)
+      - id: f_volume_radar
+        text: >-
+          Abnormal-volume radar over 1,651 instruments: volume ratio >= 3x, classified into 5 classes
+          by price position and candle direction; matched 6/6 hand-labeled ground-truth cases.
+        source: csgo-agent docs/PROJECT_STATUS.md V20
+      - id: f_signal_log
+        text: >-
+          Daily automated scans (launchd / cron) with Telegram alerts; append-only signal log that
+          back-fills realized 7/14/30-day returns for every alert and feeds dashboard win-rate stats.
+        source: csgo-agent V6 Phase 1
+      - id: f_dashboard
+        text: >-
+          Dashboard: Python HTTP server with 20+ REST endpoints and modular JS; candlestick charts,
+          signal badges, sector heatmap; sector cohesion measured by median pairwise Pearson
+          correlation.
+        source: csgo-agent V5.2 / V6 Phase 4
+      - id: f_holder_tracking
+        text: >-
+          Large-holder tracking: diffs public Steam inventory snapshots across many accounts into a
+          ledger; separates one-shot storage transfers from incremental real trades.
+        source: csgo-agent V20 steam_inventory_watch
+      - id: f_state_machine
+        text: >-
+          Eight-phase market-cycle state machine (base, accumulation, shakeout, markup, platform,
+          second markup, distribution, breakdown) driving a buy-zone scanner over 982 items.
+        source: csgo-agent V19
+      - id: f_ops
+        text: >-
+          Operations: catch-up chain after power loss, self-healing boot jobs, VPS sync and a written
+          runbook.
+        source: csgo-agent V20
+    bullets:
+      - id: cs2.event_study
+        text: >-
+          Turned a discretionary pullback-to-cost-basis setup into a look-ahead-free event signal and
+          tested it on 13,671 events across 1,190 instruments over 3 years: 14-day hit rate of 46.0%
+          vs. 33.3% for a placebo dip signal and 29.0% for the unconditional baseline.
+        facts: [f_event_study]
+        weights: {quant_research: 3, quant_dev: 3, risk_data: 3, investment_analytics: 2, marketplace_econ: 2}
+      - id: cs2.regime_risk
+        text: >-
+          Stress-tested that edge by regime and exit rule: it disappeared during a market-structure
+          shock (43.5% vs. 44.9% placebo), and stop-loss overlays cut hit rates by 2–5 percentage
+          points, which changed how the signal is used.
+        facts: [f_event_study]
+        weights: {quant_research: 3, quant_dev: 2, risk_data: 2, investment_analytics: 1}
+      - id: cs2.paper_trading
+        text: >-
+          Built a paper-trading harness with a random-entry control group, a 7-day trade-hold
+          constraint and two-stage exits; when random entries beat all 11 signal sources in a weak
+          regime, used the result to prioritize a market-regime gate over adding new signals.
+        facts: [f_paper_trading]
+        weights: {quant_research: 3, quant_dev: 3, trading_systems: 1, risk_data: 2, investment_analytics: 2}
+      - id: cs2.methodology_fix
+        text: >-
+          Audited my own backtests: removed double-counted correlated features (max stacked score
+          83 → 25), lengthened cooldowns from 7 to 14 days to reduce overlapping samples, and
+          excluded an anomalous bull-run window from evaluation.
+        facts: [f_methodology_fix]
+        weights: {quant_research: 3, quant_dev: 2, risk_data: 3, investment_analytics: 1}
+      - id: cs2.walkforward
+        text: >-
+          Ran walk-forward (70/30) backtests; price-tier-specific feature weights raised the
+          out-of-sample hit rate (7-day return ≥ 8%) of alerted signals from 24.5% to 29.5% on 3,274
+          test signals.
+        facts: [f_walkforward]
+        weights: {quant_research: 2, quant_dev: 2, risk_data: 2, marketplace_econ: 1}
+      - id: cs2.data_platform
+        text: >-
+          Built the data layer for a Steam CS2 item-market research platform: ~3 years of daily OHLCV
+          for 2,430 instruments plus daily listing (supply) and buy-order (demand) history for 2,012
+          items, with rate-limited collectors, local caching and atomic writes.
+        facts: [f_universe]
+        weights: {quant_dev: 3, investment_analytics: 3, fintech_swe: 1, marketplace_econ: 3, risk_data: 1}
+      - id: cs2.scale
+        text: >-
+          Grew the system to a ~48K-line Python codebase (plus a ~10K-line JS dashboard) covering
+          signal scanners, a market-cycle state machine, backtests and daily automation.
+        facts: [f_scale, f_state_machine]
+        weights: {quant_dev: 1, fintech_swe: 1, trading_systems: 1}
+      - id: cs2.signal_log
+        text: >-
+          Closed the loop from research to production with scheduled daily scans, Telegram alerts,
+          and an append-only signal log that back-fills realized 7/14/30-day returns for every alert.
+        facts: [f_signal_log]
+        weights: {quant_dev: 2, trading_systems: 3, fintech_swe: 2, investment_analytics: 2}
+      - id: cs2.volume_radar
+        text: >-
+          Implemented an abnormal-volume radar over 1,651 instruments that flags ≥3× volume spikes and
+          classifies them by price position and candle direction.
+        facts: [f_volume_radar]
+        weights: {trading_systems: 2, quant_dev: 1, marketplace_econ: 2}
+      - id: cs2.dashboard
+        text: >-
+          Shipped a research dashboard (Python HTTP server, 20+ REST endpoints, modular JS) with
+          candlestick charts, signal-performance badges and sector heatmaps based on median pairwise
+          Pearson correlation.
+        facts: [f_dashboard]
+        weights: {fintech_swe: 2, investment_analytics: 2, quant_dev: 1}
+      - id: cs2.market_model
+        text: >-
+          Modeled supply and demand in a virtual-goods market — listings, buy orders and large-holder
+          inventories — by diffing public Steam inventory snapshots across many accounts into a
+          holdings ledger.
+        facts: [f_holder_tracking, f_universe]
+        weights: {marketplace_econ: 3, risk_data: 1}
+
+  # ==========================================================================
+  - id: equity_signal_platform
+    kind: project
+    title: Equity Swing-Trading Signal & Backtesting Platform (China A-shares)
+    role: Independent project
+    location: ""
+    start: 2026-03
+    end: 2026-05
+    url: ""
+    stack: [Python, pandas, NumPy, Optuna, FastAPI, WebSocket, APScheduler, SQLite, Parquet, JavaScript, pytest, REST APIs]
+    facts:
+      - id: f_scale
+        text: About 16K lines of Python (16,046 counted) with 89 unit tests (pytest).
+        source: a-stock-signal-v2@main (2026-05-27)
+      - id: f_universe
+        text: >-
+          Universe of 5,000+ A-share stocks; 5,201 stocks mapped to Shenwan L1/L2 industries (99.6%
+          L2 coverage); about 100 industry sectors and 4 major indices.
+        source: a-stock-signal-v2 CLAUDE.md, docs/PROJECT_STATUS.md, CHANGELOG Phase B
+      - id: f_signals
+        text: >-
+          21 buy signals (15 positive across 3 phases + 6 negative/risk) and 6 sell signals, all
+          vectorized in pandas; derived features lagged with shift(1); trades executed at next open.
+        source: a-stock-signal-v2 CLAUDE.md
+      - id: f_filters
+        text: >-
+          Top-down 3-layer filter: market regime with 4 states (bull / range / bear / crash; crash
+          stops scanning) -> sector rating with 5 multipliers from 0.50 to 1.15 -> stock scoring with
+          phase-chain multipliers.
+        source: a-stock-signal-v2 CLAUDE.md
+      - id: f_constraints
+        text: >-
+          Board adapter for price-limit bands (main board 10%, ChiNext/STAR 20%, Beijing SE 30%, ST
+          stocks 5%) and T+1 settlement awareness; no hard-coded percentage thresholds in signals.
+        source: a-stock-signal-v2 CLAUDE.md, memory feedback_dont_exclude_st
+      - id: f_backtest
+        text: >-
+          Backtester: next-open execution, limit-up/limit-down fill handling, forced liquidation;
+          max 10 positions, max 20% per stock, 1M CNY starting capital; commissions 0.03% buy /
+          0.08% sell plus 3-tier slippage; 3 exit strategies (fixed-day, stop-loss/take-profit,
+          trailing stop); report with win rate, profit/loss ratio, profit factor, max drawdown,
+          Sharpe ratio, annualized return and monthly distribution.
+        source: a-stock-signal-v2 docs/PROJECT_STATUS.md Phase 5
+      - id: f_evolution
+        text: >-
+          Optuna TPE search (200 trials by default) scored on training and validation windows; rolling
+          walk-forward validation with 6-month train / 2-month validation; new parameters observed for
+          2 weeks; parameter versions move through new -> observing -> active -> retired.
+        source: a-stock-signal-v2 evolution/, CLAUDE.md
+      - id: f_realtime
+        text: >-
+          Intraday sell monitor polls quotes for held stocks every 6 seconds; URGENT alerts
+          (stop-loss, trailing stop, heavy-volume drop, support break) vs NORMAL (holding period,
+          fading volume); 60-minute de-duplication; end-of-day digest; watches 5-15 holdings.
+        source: a-stock-signal-v2 CLAUDE.md, signals/sell/monitor.py
+      - id: f_service
+        text: >-
+          FastAPI + WebSocket service with APScheduler jobs and a single-page dashboard; two SQLite
+          databases (shared market data vs per-user data) to avoid write-lock contention; every user
+          query scoped by user_id for JWT multi-tenancy.
+        source: a-stock-signal-v2 CLAUDE.md
+      - id: f_data
+        text: >-
+          Tushare Pro data (daily bars, chip distribution, shareholder counts, top-trader lists,
+          margin balances, money flow) behind a local Parquet cache with incremental updates, atomic
+          writes, request spacing and exponential backoff.
+        source: a-stock-signal-v2 .claude/memory/feedback_kline_local_cache.md, CLAUDE.md
+    bullets:
+      - id: eq.platform
+        text: >-
+          Built an end-to-end equity signal research platform in Python (~16K LOC, 89 unit tests)
+          covering 5,000+ China A-share stocks: incremental data pipeline, 21 vectorized buy signals,
+          and a top-down market-regime → sector → stock filter.
+        facts: [f_scale, f_universe, f_signals, f_filters]
+        weights: {quant_dev: 3, quant_research: 2, investment_analytics: 3, fintech_swe: 1, trading_systems: 1}
+      - id: eq.backtester
+        text: >-
+          Wrote an event-driven backtester with next-open execution, limit-up/limit-down fill
+          handling, position caps (10 names, ≤20% each), asymmetric commissions and tiered slippage;
+          reports Sharpe ratio, max drawdown, profit factor and monthly P&L.
+        facts: [f_backtest]
+        weights: {quant_dev: 3, quant_research: 3, trading_systems: 2, investment_analytics: 3, risk_data: 1}
+      - id: eq.optuna
+        text: >-
+          Automated parameter search with Optuna (TPE) under rolling walk-forward validation (6-month
+          train / 2-month validation) and promoted parameter sets through a versioned lifecycle
+          (new → observing → active → retired).
+        facts: [f_evolution]
+        weights: {quant_dev: 3, quant_research: 2, risk_data: 2, investment_analytics: 1}
+      - id: eq.bias_controls
+        text: >-
+          Guarded against look-ahead bias by lagging every derived feature and executing at the next
+          open, and encoded market rules (T+1 settlement, 10/20/30% board price limits) in one adapter
+          instead of hard-coded thresholds.
+        facts: [f_signals, f_constraints]
+        weights: {quant_research: 3, quant_dev: 2, trading_systems: 1, risk_data: 1}
+      - id: eq.realtime_monitor
+        text: >-
+          Implemented an intraday risk monitor that polls quotes for held positions every 6 seconds
+          and raises stop-loss, trailing-stop, heavy-volume-drop and support-break alerts with
+          severity levels and 60-minute de-duplication.
+        facts: [f_realtime]
+        weights: {trading_systems: 3, fintech_swe: 2, quant_dev: 2, risk_data: 1}
+      - id: eq.buy_slow_sell_fast
+        text: >-
+          Split the system into an end-of-day batch scan of 5,000+ stocks and a real-time monitor for
+          5–15 holdings, with independent schedulers, data frequencies and failure isolation.
+        facts: [f_universe, f_realtime]
+        weights: {trading_systems: 3, quant_dev: 1, fintech_swe: 1}
+      - id: eq.service
+        text: >-
+          Served signals through FastAPI and WebSocket with APScheduler jobs; split SQLite stores
+          (shared market data vs. per-user data) to remove write-lock contention and scoped every user
+          query for JWT multi-tenancy.
+        facts: [f_service]
+        weights: {fintech_swe: 3, trading_systems: 2, quant_dev: 1}
+      - id: eq.data_layer
+        text: >-
+          Integrated market, positioning and fund-flow datasets (chip distribution, shareholder
+          counts, margin balances, top-trader lists) behind a cached, incremental Parquet layer with
+          atomic writes and exponential backoff.
+        facts: [f_data]
+        weights: {investment_analytics: 3, quant_dev: 2, risk_data: 2, quant_research: 1}
+      - id: eq.sector_mapping
+        text: >-
+          Mapped 5,201 stocks to Shenwan L1/L2 industries (99.6% L2 coverage) and aggregated
+          constituents into sector ratings that scale stock scores by 0.50–1.15.
+        facts: [f_universe, f_filters]
+        weights: {investment_analytics: 3, quant_research: 1, quant_dev: 1}
+
+  # ==========================================================================
+  - id: portfolio_alert_saas
+    kind: project
+    title: Portfolio Monitoring & Sell-Alert SaaS for CS2 Item Investors
+    role: Founder & sole developer      # TODO 如有真实用户/付费用户，补到 facts 里（这是大加分项）
+    location: ""
+    start: 2026-03
+    end: 2026-07
+    url: ""
+    stack: [Python, Flask, SQLAlchemy, SQLite, React, Vite, JavaScript, JWT, APScheduler, REST APIs, pytest, Linux, systemd, nginx, LLM APIs]
+    facts:
+      - id: f_stack
+        text: >-
+          Flask REST API + SQLAlchemy on SQLite (10 tables) and a React + Vite frontend; about 22K
+          lines of Python/JS.
+        source: sell_csgo_monitor CLAUDE.md, models.py
+      - id: f_auth
+        text: >-
+          JWT auth with 2-hour access tokens and 7-day httpOnly refresh tokens; invite-code
+          registration.
+        source: sell_csgo_monitor CLAUDE.md
+      - id: f_security
+        text: >-
+          Fail-closed startup security check (refuses to start with default secrets or wildcard CORS),
+          Fernet encryption for stored Steam session cookies, API token redaction, CORS allow-list,
+          API rate limiting and push quotas.
+        source: sell_csgo_monitor docs/PRODUCT_ROADMAP.md A-0, commit 483c5e0
+      - id: f_features
+        text: >-
+          Steam inventory sync with truncation detection, cost basis and P&L tracking, daily reports,
+          signal review stats, free/paid tiers with a 30-day trial, admin console with 8 admin APIs,
+          data export.
+        source: sell_csgo_monitor docs/PROJECT_STATUS.md
+      - id: f_scheduler
+        text: >-
+          Separate APScheduler process with 6 cron jobs (3 scans per day, daily report, push-failure
+          summary, signal follow-up); DB-backed cross-process task state; SQLite busy_timeout plus
+          commit retry.
+        source: sell_csgo_monitor CLAUDE.md, PROJECT_STATUS A-2/A-5
+      - id: f_push
+        text: >-
+          WeChat (WxPusher) and Telegram delivery with fallback, failure counting, automatic disabling
+          after 3 consecutive failures, delivery logs and daily stats.
+        source: sell_csgo_monitor PRODUCT_ROADMAP A-1/A-4
+      - id: f_ocr
+        text: >-
+          Cost-basis entry from trade screenshots via a vision LLM (GLM-4V) plus fuzzy item-name
+          matching with difflib at a 0.85 similarity threshold.
+        source: sell_csgo_monitor PROJECT_STATUS bug table (2026-03-05)
+      - id: f_tests_deploy
+        text: >-
+          375 passing pytest tests; deployed on a Linux VPS with gunicorn, 2 systemd services, nginx
+          reverse proxy and TLS; scripted backups; dependencies pinned from production.
+        source: sell_csgo_monitor PROJECT_STATUS, deploy/
+      - id: f_contract
+        text: >-
+          Sell decisions consume a JSON signal contract produced by the separate research system
+          through an adapter layer, plus an alert-only risk layer.
+        source: sell_csgo_monitor CLAUDE.md (narrator v4)
+    bullets:
+      - id: saas.product
+        text: >-
+          Built and deployed a multi-user portfolio-monitoring SaaS for CS2 item investors (Flask,
+          SQLAlchemy, React/Vite): Steam inventory sync, cost basis and P&L tracking, scheduled risk
+          scans, and sell alerts via WeChat and Telegram.
+        facts: [f_stack, f_features, f_push]
+        weights: {fintech_swe: 3, trading_systems: 2, marketplace_econ: 2, quant_dev: 1, investment_analytics: 1}
+      - id: saas.security
+        text: >-
+          Hardened auth and data handling: JWT with 2-hour access and 7-day httpOnly refresh tokens,
+          Fernet-encrypted third-party session cookies, a fail-closed startup security check, CORS
+          allow-listing and API rate limiting.
+        facts: [f_auth, f_security]
+        weights: {fintech_swe: 3, trading_systems: 1}
+      - id: saas.jobs
+        text: >-
+          Ran background work in a separate APScheduler service (6 cron jobs) with DB-backed task
+          state, retry-on-lock SQLite commits, and multi-channel delivery that falls back and disables
+          a channel after 3 consecutive failures.
+        facts: [f_scheduler, f_push]
+        weights: {fintech_swe: 3, trading_systems: 3, quant_dev: 1}
+      - id: saas.monetization
+        text: >-
+          Added free/paid tiers with a 30-day trial, an admin console (8 admin APIs) and data export;
+          kept 375 pytest tests passing and deployed on a Linux VPS with gunicorn, systemd, nginx and
+          TLS.
+        facts: [f_features, f_tests_deploy]
+        weights: {fintech_swe: 3, trading_systems: 1, marketplace_econ: 1}
+      - id: saas.ocr
+        text: >-
+          Automated cost-basis entry from trade screenshots with a vision LLM plus fuzzy item-name
+          matching (difflib, 0.85 threshold) across marketplaces that name items inconsistently.
+        facts: [f_ocr]
+        weights: {fintech_swe: 2, risk_data: 1, marketplace_econ: 1}
+      - id: saas.contract
+        text: >-
+          Decoupled research from product by consuming a JSON signal contract from the research
+          pipeline through an adapter layer, so signal logic could change without breaking the app.
+        facts: [f_contract]
+        weights: {fintech_swe: 2, quant_dev: 2, trading_systems: 2}
+
+  # ==========================================================================
+  - id: uci_mr_collaboration
+    kind: research
+    title: Predicting Intervention Timing in Mixed-Reality Collaboration
+    role: Team project (4 members), EECS 215 Data Mining & Modeling, UC Irvine   # TODO 写清你负责的部分
+    location: Irvine, CA
+    start: 2025-09
+    end: 2025-12
+    url: https://github.com/LilyLiu945/MR-Collaboration-Intervention
+    stack: [Python, pandas, NumPy, scikit-learn, hmmlearn, TensorFlow]
+    facts:
+      - id: f_data
+        text: >-
+          Per-second multimodal behavioral features (speaking entropy, dominance ratio, joint
+          attention, proximity) and network metrics for 12 collaborating groups; team of 4.
+        source: MR-Collaboration-Intervention README.md, workflow.md
+      - id: f_method
+        text: >-
+          Gaussian HMM (hmmlearn) for latent coordination states; supervised feature selection
+          (mutual information, RFE, LassoCV); LSTM, GRU and Transformer classifiers in
+          TensorFlow/Keras compared with Random Forest; group-level split of 8/2/2 groups for
+          train/validation/test to prevent leakage; imbalanced minority class.
+        source: MR-Collaboration-Intervention src/, workflow.md
+      - id: f_result_caveat
+        text: >-
+          Held-out accuracy 0.82 was below the 0.89 majority-class rate (164 of 185 windows negative),
+          so accuracy/F1 should not be quoted as a result.
+        source: results/reports/final_evaluation_report.txt
+    bullets:
+      - id: mr.hmm
+        text: >-
+          Modeled team-collaboration dynamics from per-second multimodal features (speaking entropy,
+          dominance, joint attention, proximity) with a Gaussian HMM to uncover latent coordination
+          states.
+        facts: [f_data, f_method]
+        weights: {risk_data: 3, quant_research: 2, quant_dev: 1}
+      - id: mr.sequence_models
+        text: >-
+          Compared LSTM, GRU and Transformer sequence classifiers (TensorFlow/Keras) with a Random
+          Forest, using group-level train/validation/test splits (8/2/2 groups) to prevent leakage
+          across sessions.
+        facts: [f_method]
+        weights: {risk_data: 3, quant_research: 2, quant_dev: 1}
+      - id: mr.feature_selection
+        text: >-
+          Ran supervised feature selection (mutual information, RFE, Lasso) and handled class
+          imbalance for rare "intervention-needed" windows.
+        facts: [f_method]
+        weights: {risk_data: 2, quant_research: 1}
+
+  # ==========================================================================
+  # TODO: 如果你有实习 / 助教 / 研究助理 / 在国内的工作经历，按下面格式加一条 kind: experience。
+  #       有真实雇主的经历在简历上权重最高，一定要写。
+  # - id: intern_xxx
+  #   kind: experience
+  #   title: Software Engineering Intern
+  #   role: Software Engineering Intern
+  #   org: 公司英文名
+  #   location: City, Country
+  #   start: 2024-06
+  #   end: 2024-09
+  #   stack: [Java, Spring Boot, MySQL]
+  #   facts:
+  #     - {id: f1, text: "...", source: "自述"}
+  #   bullets:
+  #     - {id: intern.x1, text: "...", facts: [f1], weights: {fintech_swe: 3}}

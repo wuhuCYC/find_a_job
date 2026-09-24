@@ -1,0 +1,56 @@
+# ============================================================================
+# 个人档案模板。用法：
+#   mkdir -p private && cp profile/profile.example.yaml private/profile.yaml
+#   然后编辑 private/profile.yaml（private/ 在 .gitignore 里，不会被提交）
+#
+# 这个仓库目前是 public 的 —— 真实电话、邮箱、签证身份只写在 private/ 里。
+# ============================================================================
+
+person:
+  name: Your Name
+  first_name: Your
+  last_name: Name
+  email: you@example.com
+  phone: TODO                 # 例如 +1 949 555 0100（RenderCV 会校验格式）
+  location: Irvine, CA
+  linkedin: TODO              # 只写用户名（linkedin.com/in/ 后面那段）
+  github: TODO                # 只写用户名
+  website: ""
+
+# 工作授权 —— 决定打分器要不要重罚「不担保」的职位，以及申请表的参考答案。务必如实。
+work_authorization:
+  status: TODO                          # 例如 "F-1, OPT from 2026-07, STEM OPT eligible"
+  requires_sponsorship_now: false       # TODO
+  requires_sponsorship_future: true     # TODO（F-1 学生通常是 true）
+  authorized_to_work_answer: TODO       # 申请表「Are you legally authorized to work in the US?」的如实回答
+  sponsorship_answer: TODO              # 申请表「Will you now or in the future require sponsorship?」的如实回答
+
+graduation:
+  school: University of California, Irvine
+  degree: MS, Electrical Engineering and Computer Science
+  date: TODO                            # 例如 2026-12
+
+preferences:
+  # 岗位方向偏好（越靠前权重越高）。可选值见 config/archetypes.yaml
+  archetype_priority:
+    - quant_dev
+    - trading_systems
+    - fintech_swe
+    - investment_analytics
+    - quant_research
+    - risk_data
+    - marketplace_econ
+  include_internships: false            # 如果还能/想找实习，改成 true
+
+application_answers:
+  how_did_you_hear: Company careers website
+  current_company: University of California, Irvine
+  willing_to_relocate: Yes, within California
+  earliest_start_date: TODO
+  salary_expectation: ""                # 建议留空或写 "Open to market rate for the role"
+  eeo: Decline to self-identify         # 自愿信息，按你自己的意愿填
+
+# 覆盖 RenderCV 的 design 选项（可选），例如：
+# resume_design:
+#   theme: sb2nov
+resume_design: {}

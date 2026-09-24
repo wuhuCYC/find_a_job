@@ -1,0 +1,190 @@
+# ============================================================================
+# 搜索与打分规则 —— 全部透明可调，改完直接重新跑 `python -m jobhunt score`
+# ============================================================================
+
+# ---- 地区偏好（0~1）。不在列表里的地区直接过滤掉 ----
+regions:
+  OC: 1.0          # 橙县：Irvine / Newport Beach / Costa Mesa / Santa Ana ...
+  LA: 1.0          # 洛杉矶县 + 周边：Santa Monica / Pasadena / Burbank / Westlake Village ...
+  REMOTE_US: 0.8   # 美国境内远程（人在加州也能做）
+  SD: 0.6          # 圣地亚哥
+  BAY: 0.5         # 湾区
+  CA_OTHER: 0.4    # 加州其他地方
+
+# ---- 职级 ----
+seniority:
+  exclude_senior: true        # Senior / Staff / Principal / Lead / Manager / Director / VP ... 直接过滤
+  include_internships: false  # 还在读、要找实习就改成 true
+  scores:                     # 职级分（满分 10）
+    entry: 10
+    intern: 8
+    unknown: 6
+    mid: 4
+
+# ---- 职能闸门：职位名里至少要命中一个，才算「技术/量化/金融相关」----
+function_title_keywords:
+  - engineer
+  - engineering
+  - developer
+  - software
+  - programmer
+  - quant
+  - quantitative
+  - data
+  - analyst
+  - analytics
+  - scientist
+  - research
+  - trading
+  - trader
+  - machine learning
+  - "re:\\bml\\b"
+  - "re:\\bai\\b"
+  - platform
+  - backend
+  - full stack
+  - infrastructure
+  - risk
+  - model
+  - portfolio
+  - investment
+  - technology
+  - technologist
+  - systems
+  - "re:\\bsre\\b"
+  - devops
+  - cloud
+  - economy
+  - pricing
+  - rotation
+  - rotational
+
+# 职位名命中这些直接排除（非技术岗）
+exclude_title_keywords:
+  - sales
+  - marketing
+  - recruiter
+  - recruiting
+  - "re:\\bhr\\b"
+  - human resources
+  - legal
+  - counsel
+  - paralegal
+  - attorney
+  - customer service
+  - customer success
+  - call center
+  - teller
+  - loan officer
+  - branch
+  - facilities
+  - administrative
+  - receptionist
+  - executive assistant
+  - nurse
+  - clerk
+  - driver
+  - warehouse
+
+# ---- 分数权重（总分 100）----
+weights:
+  archetype: 40     # 岗位方向匹配（乘以你对该方向的偏好系数）
+  skills: 25        # JD 技能 vs 你的技能等级
+  location: 15      # 地区偏好
+  seniority: 10     # 职级
+  company: 10       # 公司优先级（companies.yaml 里的 tier）
+
+company_tier_scores: {1: 10, 2: 6, 3: 3}
+
+# ---- 经验年限惩罚：JD 写「N+ years」----
+experience_penalty:
+  - {min_years: 5, penalty: 15}
+  - {min_years: 3, penalty: 8}
+
+# ---- 签证相关措辞：命中即打标签；如果你需要担保，blocker 类会重罚 ----
+visa_phrases:
+  no_sponsorship:
+    - unable to sponsor
+    - not able to sponsor
+    - will not sponsor
+    - cannot sponsor
+    - does not sponsor
+    - do not sponsor
+    - not sponsor
+    - no sponsorship
+    - without sponsorship
+    - without the need for sponsorship
+    - without requiring sponsorship
+    - sponsorship is not available
+    - sponsorship will not be provided
+    - not eligible for sponsorship
+    - "re:not\\s+(?:be\\s+)?(?:able|willing)\\s+to\\s+(?:provide|offer)\\s+(?:visa\\s+)?sponsorship"
+    - "re:(?:now|currently)\\s+or\\s+in\\s+the\\s+future\\s+(?:require|need)"
+  citizenship_required:
+    - u.s. citizenship is required
+    - us citizenship is required
+    - must be a u.s. citizen
+    - must be a us citizen
+    - u.s. citizens only
+    - "re:\\bu\\.?s\\.? persons?\\b"
+    - itar
+    - export control
+    - export administration regulations
+  clearance:
+    - security clearance
+    - secret clearance
+    - top secret
+    - "re:\\bts/sci\\b"
+  e_verify:
+    - e-verify
+    - everify
+visa_blocker_penalty: 35
+e_verify_bonus: 2
+
+# ---- 技能词表（canonical 名字要和 experience_bank.yaml 里的 skills.name 对得上）----
+# aliases 是正则（不区分大小写）
+skill_vocabulary:
+  Python: ["\\bpython\\b"]
+  Java: ["\\bjava\\b(?!\\s*script)"]
+  C++: ["c\\+\\+", "\\bcpp\\b"]
+  C#: ["c#", "\\.net\\b"]
+  SQL: ["\\bsql\\b", "postgres", "mysql", "sql server", "t-sql", "pl/sql"]
+  JavaScript: ["javascript", "\\bjs\\b", "typescript", "node\\.?js"]
+  Go: ["\\bgolang\\b", "\\bgo\\s+(?:language|programming)"]
+  Scala: ["\\bscala\\b"]
+  Kotlin: ["\\bkotlin\\b"]
+  Rust: ["\\brust\\b"]
+  R: ["\\br\\b(?:\\s+programming|\\s+language|,|/)"]
+  SAS: ["\\bsas\\b"]
+  kdb+: ["\\bkdb\\+?", "\\bq/kdb"]
+  pandas: ["\\bpandas\\b"]
+  NumPy: ["\\bnumpy\\b"]
+  scikit-learn: ["scikit-learn", "sklearn"]
+  TensorFlow: ["tensorflow", "\\bkeras\\b"]
+  PyTorch: ["pytorch", "\\btorch\\b"]
+  XGBoost: ["xgboost", "lightgbm", "gradient boost"]
+  Spark: ["\\bspark\\b", "pyspark", "databricks"]
+  Kafka: ["\\bkafka\\b"]
+  Airflow: ["\\bairflow\\b"]
+  Snowflake: ["snowflake"]
+  dbt: ["\\bdbt\\b"]
+  Optuna: ["\\boptuna\\b", "bayesian optimization", "hyperparameter"]
+  FastAPI: ["fastapi"]
+  Flask: ["\\bflask\\b"]
+  Django: ["django"]
+  Spring: ["spring boot", "\\bspring\\b"]
+  SQLAlchemy: ["sqlalchemy"]
+  REST APIs: ["\\brest\\b", "restful", "\\bapis?\\b"]
+  WebSocket: ["websocket"]
+  React: ["\\breact\\b"]
+  Docker: ["docker", "container"]
+  Kubernetes: ["kubernetes", "\\bk8s\\b"]
+  AWS: ["\\baws\\b", "amazon web services", "\\bec2\\b", "\\bs3\\b", "lambda"]
+  Azure: ["\\bazure\\b"]
+  GCP: ["\\bgcp\\b", "google cloud"]
+  Linux: ["\\blinux\\b", "\\bunix\\b"]
+  Git: ["\\bgit\\b", "github", "gitlab"]
+  pytest: ["pytest", "unit test", "test-driven", "\\btdd\\b"]
+  Tableau: ["tableau", "power bi"]
+  Excel: ["\\bexcel\\b", "\\bvba\\b"]
+  LLM APIs: ["\\bllms?\\b", "large language model", "generative ai", "genai"]

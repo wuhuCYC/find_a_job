@@ -1,0 +1,9 @@
+[project]
+name = "jobhunt"
+version = "0.1.0"
+description = "Personal job-search pipeline: LA / Irvine finance, quant and fintech roles"
+requires-python = ">=3.10"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"

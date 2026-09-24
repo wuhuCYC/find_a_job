@@ -1,0 +1,18 @@
+# 核心：抓取 + 打分 + 追踪
+requests>=2.31
+PyYAML>=6.0
+pydantic>=2.7
+
+# 简历渲染（YAML → PDF）。click 在部分 typer 版本下需要单独装
+rendercv[full]==2.3
+click>=8.1
+pypdf>=4.0
+
+# 定制简历（调用 Claude）
+anthropic>=1.8
+
+# 半自动投递（打开浏览器预填）。装完运行：playwright install chromium
+playwright>=1.45
+
+# 测试
+pytest>=8.0

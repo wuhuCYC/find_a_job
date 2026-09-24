@@ -1,0 +1,529 @@
+# ============================================================================
+# 目标公司表（2026-09 调研）。详细分析见 docs/TARGET_COMPANIES.md
+#
+# tier：1 = 最优先（地点对 + 和钱直接相关 + 有新人岗/担保记录）；2 = 值得投；3 = 兜底/观察
+# ats：抓取方式
+#   greenhouse {token} / lever {site} / ashby {org} / smartrecruiters {company_id, country}
+#   workday {host, tenant, site} / icims {portal}（实验）/ jobvite {company}（实验）/ manual（只能手动看官网）
+# verified：ATS 配置是否在调研中从真实招聘链接里确认过。false 的请先跑 `python -m jobhunt check`
+# search_terms：只对 workday 生效；职位特别多的公司用关键词缩小范围（删掉则抓全部）
+# ============================================================================
+
+companies:
+
+  # ------------------------------------------------------------ OC · 买方 / 资管
+  pimco:
+    name: PIMCO
+    tier: 1
+    category: asset_manager
+    hq: Newport Beach, CA
+    ats: {type: workday, host: pimco.wd1.myworkdayjobs.com, tenant: pimco, site: pimco-careers}
+    verified: true
+    careers_url: https://www.pimco.com/us/en/about-us/careers
+    notes: 债券巨头，总部就在 Newport Beach。Quantitative Developer / Researcher-Developer 岗和你的回测+信号系统最像；Technology Analyst 实习是新人入口。H-1B 记录强。
+
+  capital_group:
+    name: Capital Group
+    tier: 1
+    category: asset_manager
+    hq: Los Angeles + Irvine campus
+    ats: {type: workday, host: capgroup.wd1.myworkdayjobs.com, tenant: capgroup, site: capitalgroupcareers}
+    verified: true
+    careers_url: https://www.capitalgroup.com/about-us/careers.html
+    notes: OC 新人技术岗最多（CAMPUS TREx 轮岗、SDE Associate、New Grad SDE I），Irvine 是技术园区；另有 Quant Engineer（LA/Irvine）。
+
+  pacific_life:
+    name: Pacific Life
+    tier: 1
+    category: insurance
+    hq: Newport Beach, CA
+    ats: {type: workday, host: pacificlife.wd1.myworkdayjobs.com, tenant: pacificlife, site: PacificLifeCareers}
+    verified: true
+    careers_url: https://www.pacificlife.com/home/Careers.html
+    notes: Pacific Life Investments 有 Quantitative Analyst（组合优化/监控模型）。H-1B 记录稳定。2027 暑期实习 9-10 月开放。
+
+  research_affiliates:
+    name: Research Affiliates
+    tier: 1
+    category: asset_manager
+    hq: Newport Beach, CA
+    ats: {type: manual}
+    verified: false
+    careers_url: https://www.researchaffiliates.com/about-us/careers
+    notes: 因子/Smart Beta 研究，Researcher 岗做信号研究，和你最对口。2026 年 RAFI 指数业务被 TMX 收购，确认招聘主体和是否担保。
+
+  # ------------------------------------------------------------ LA · 买方 / 交易
+  crabel:
+    name: Crabel Capital Management
+    tier: 1
+    category: quant_hedge_fund
+    hq: Los Angeles, CA
+    ats: {type: manual}
+    verified: false
+    careers_url: https://crabel.com/careers/
+    notes: LA 唯一确认的系统化交易公司（期货/外汇短线），和你的方向最贴。门槛高（C++/统计/交易面试），名额少。有 H-1B 记录。
+
+  tcw:
+    name: TCW Group
+    tier: 1
+    category: asset_manager
+    hq: Los Angeles, CA (downtown)
+    ats: {type: icims, portal: careers-tcw.icims.com}
+    verified: true
+    careers_url: https://www.tcw.com/careers
+    notes: 总部在 DTLA，有工程团队；实习转全职 analyst 项目（毕业时间 2026-12 ~ 2027-06 可投下一轮实习）。
+
+  western_asset:
+    name: Western Asset / Franklin Templeton
+    tier: 2
+    category: asset_manager
+    hq: Pasadena, CA
+    ats: {type: workday, host: franklintempleton.wd5.myworkdayjobs.com, tenant: franklintempleton, site: Primary-External-1}
+    search_terms: [Pasadena, San Mateo]
+    verified: true
+    careers_url: https://www.franklintempleton.com/careers
+    notes: Western Asset 在 Pasadena；2024 年后资金流出，招聘可能偏少。search_terms 若搜不到东西就删掉。
+
+  la_capital:
+    name: Los Angeles Capital Management
+    tier: 2
+    category: asset_manager
+    hq: Los Angeles, CA
+    ats: {type: manual}
+    verified: false
+    careers_url: ""
+    notes: 量化股票资管，小规模 H-1B 记录（FY2025 4 个 LCA）。官网找 Careers。
+
+  oaktree:
+    name: Oaktree Capital Management
+    tier: 2
+    category: asset_manager
+    hq: Los Angeles, CA (downtown)
+    ats: {type: manual}
+    verified: false
+    careers_url: https://www.oaktreecapital.com
+    notes: 另类资管巨头，有技术团队；新人项目偏投资端。官网找 Careers。
+
+  ares:
+    name: Ares Management
+    tier: 2
+    category: asset_manager
+    hq: Los Angeles, CA (Century City)
+    ats: {type: manual}
+    verified: false
+    careers_url: https://www.aresmgmt.com
+    notes: 可能用 Workday（未验证）。确认后可改成 workday 配置自动抓。
+
+  wedbush:
+    name: Wedbush Securities
+    tier: 2
+    category: broker_dealer
+    hq: Los Angeles, CA
+    ats: {type: manual}
+    verified: false
+    careers_url: https://www.wedbush.com
+    notes: 券商/清算，有交易技术岗（未验证）。
+
+  houlihan_lokey:
+    name: Houlihan Lokey
+    tier: 3
+    category: investment_bank
+    hq: Los Angeles, CA (Century City)
+    ats: {type: manual}
+    verified: false
+    careers_url: https://hl.com
+    notes: 投行，偏 analyst 项目，技术岗少。
+
+  payden:
+    name: Payden & Rygel
+    tier: 3
+    category: asset_manager
+    hq: Los Angeles, CA
+    ats: {type: manual}
+    verified: false
+    careers_url: https://www.payden.com
+    notes: 债券资管（未验证）。
+
+  wilshire:
+    name: Wilshire Advisors
+    tier: 3
+    category: asset_manager
+    hq: Santa Monica, CA
+    ats: {type: manual}
+    verified: false
+    careers_url: https://www.wilshire.com
+    notes: 指数/投资分析（未验证）。
+
+  guggenheim:
+    name: Guggenheim Investments
+    tier: 3
+    category: asset_manager
+    hq: Santa Monica, CA
+    ats: {type: manual}
+    verified: false
+    careers_url: https://www.guggenheiminvestments.com
+    notes: 未验证。
+
+  causeway:
+    name: Causeway Capital Management
+    tier: 3
+    category: asset_manager
+    hq: Los Angeles, CA
+    ats: {type: manual}
+    verified: false
+    careers_url: https://www.causewaycap.com
+    notes: 有量化股票团队（未验证）。
+
+  doubleline:
+    name: DoubleLine
+    tier: 3
+    category: asset_manager
+    hq: Tampa, FL (LA office)
+    ats: {type: manual}
+    verified: false
+    careers_url: https://doubleline.com
+    notes: 总部已迁 Tampa，LA 岗位会越来越少；历史上担保过 Quantitative Risk Analyst。
+
+  # ------------------------------------------------------------ OC / LA · 金融科技、信贷、银行
+  acorns:
+    name: Acorns
+    tier: 1
+    category: fintech
+    hq: Irvine, CA (remote-first)
+    ats: {type: ashby, org: Acorns}
+    verified: true
+    careers_url: https://jobs.ashbyhq.com/Acorns
+    notes: Irvine 的投资 App。有过 "Software Engineer I, Recent Graduate"；H-1B 记录强（93 条，中位 $160K）。
+
+  experian:
+    name: Experian
+    tier: 1
+    category: credit_data
+    hq: Costa Mesa, CA
+    ats: {type: smartrecruiters, company_id: Experian, country: us}
+    verified: true
+    careers_url: https://jobs.experian.com
+    notes: 征信巨头北美总部。Xcelerator 12 个月轮岗（SWE / 数据分析），4 月和 6 月入职。H-1B 记录强。
+
+  zest_ai:
+    name: Zest AI
+    tier: 1
+    category: lending_credit
+    hq: Burbank, CA
+    ats: {type: greenhouse, token: zestai}
+    verified: true
+    careers_url: https://job-boards.greenhouse.io/zestai
+    notes: 用机器学习做信贷审批。SWE / ML Engineer 岗；H-1B 记录 63 条。
+
+  tala:
+    name: Tala
+    tier: 1
+    category: lending_credit
+    hq: Santa Monica, CA
+    ats: {type: lever, site: tala}
+    verified: true
+    careers_url: https://jobs.lever.co/tala
+    notes: 新兴市场小额信贷；见过 Engineer I 级别岗位。有 H-1B 记录。
+
+  pennymac:
+    name: PennyMac
+    tier: 1
+    category: lending_credit
+    hq: Westlake Village, CA
+    ats: {type: icims, portal: careers-pennymac.icims.com}
+    verified: true
+    careers_url: https://careers.pennymac.com
+    notes: 房贷巨头。Technology Rotation Engineer I / 技术轮岗项目（2027 批次），Java/Python/C++。担保情况要问。
+
+  east_west_bank:
+    name: East West Bank
+    tier: 2
+    category: bank
+    hq: Pasadena, CA
+    ats: {type: icims, portal: careers-eastwestbank.icims.com}
+    verified: true
+    careers_url: https://www.eastwestbank.com/en/about-us/careers
+    notes: 华人背景银行，中文是真优势；H-1B 记录多但薪资中位偏低（约 $85K）。
+
+  dave:
+    name: Dave
+    tier: 2
+    category: fintech
+    hq: Los Angeles, CA
+    ats: {type: ashby, org: dave}
+    verified: true
+    careers_url: https://jobs.ashbyhq.com/dave
+    notes: LA 的 neobank。目前多为 senior 岗，放着让程序自动盯新人岗。
+
+  cotality:
+    name: Cotality (formerly CoreLogic)
+    tier: 2
+    category: credit_data
+    hq: Irvine, CA
+    ats: {type: workday, host: cotality.wd5.myworkdayjobs.com, tenant: cotality, site: Global}
+    verified: true
+    careers_url: https://www.cotality.com/careers
+    notes: 房产/抵押数据。以 senior 和远程岗为主。
+
+  first_american:
+    name: First American Financial
+    tier: 2
+    category: insurance
+    hq: Santa Ana, CA
+    ats: {type: workday, host: firstam.wd1.myworkdayjobs.com, tenant: firstam, site: firstamericancareers}
+    verified: true
+    careers_url: https://careers.firstam.com
+    notes: 产权保险 + 数据；Santa Ana 有混合办公技术岗。
+
+  loandepot:
+    name: loanDepot
+    tier: 3
+    category: lending_credit
+    hq: Irvine, CA
+    ats: {type: jobvite, company: loandepot}
+    verified: true
+    careers_url: https://careers.loandepot.com
+    notes: 房贷；技术部门近年动荡，senior 岗为主。
+
+  floqast:
+    name: FloQast
+    tier: 3
+    category: fintech
+    hq: Sherman Oaks, CA
+    ats: {type: lever, site: floqast}
+    verified: true
+    careers_url: https://jobs.lever.co/floqast
+    notes: 会计软件；目前多为 senior 岗。
+
+  blackline:
+    name: BlackLine
+    tier: 3
+    category: fintech
+    hq: Woodland Hills, CA
+    ats: {type: manual}
+    verified: false
+    careers_url: https://careers.blackline.com
+    notes: 财务结账软件；H-1B 记录多，但 LA 岗偏 senior；2025-12 裁员 7-9%，SAP 曾出价收购。
+
+  hyundai_capital:
+    name: Hyundai Capital America
+    tier: 3
+    category: lending_credit
+    hq: Irvine, CA
+    ats: {type: manual}
+    verified: false
+    careers_url: https://www.hyundaicapitalamerica.com
+    notes: 汽车金融，信贷风控/数据岗；注意 FY2026 H-1B 申请降到 0。
+
+  american_honda_finance:
+    name: American Honda Finance
+    tier: 3
+    category: lending_credit
+    hq: Torrance, CA
+    ats: {type: manual}
+    verified: false
+    careers_url: https://careers.honda.com/us/en
+    notes: 汽车金融；担保记录很少。
+
+  auto_club:
+    name: Auto Club Enterprises (AAA SoCal)
+    tier: 3
+    category: insurance
+    hq: Costa Mesa, CA
+    ats: {type: workday, host: ace.wd5.myworkdayjobs.com, tenant: ace, site: careers}
+    verified: true
+    careers_url: https://ace.wd5.myworkdayjobs.com/careers
+    notes: 保险 + 金融服务，调研中顺带发现；担保情况未知。
+
+  cathay_bank:
+    name: Cathay Bank
+    tier: 3
+    category: bank
+    hq: Los Angeles, CA
+    ats: {type: manual}
+    verified: false
+    careers_url: https://www.cathaybank.com
+    notes: 华人背景银行（未验证技术岗情况）。
+
+  city_national:
+    name: City National Bank (RBC)
+    tier: 3
+    category: bank
+    hq: Los Angeles, CA
+    ats: {type: manual}
+    verified: false
+    careers_url: https://www.cnb.com
+    notes: 未验证。
+
+  # ------------------------------------------------------------ LA / OC · 交易市场 / 游戏经济（和 CS2 经验对口）
+  riot_games:
+    name: Riot Games
+    tier: 2
+    category: game_economy
+    hq: Los Angeles, CA
+    ats: {type: greenhouse, token: riotgames}
+    verified: false
+    careers_url: https://www.riotgames.com/en/work-with-us
+    notes: 商业化/支付/游戏经济岗。ATS 是猜测，先 check。
+
+  blizzard:
+    name: Blizzard Entertainment
+    tier: 2
+    category: game_economy
+    hq: Irvine, CA
+    ats: {type: manual}
+    verified: false
+    careers_url: https://careers.blizzard.com
+    notes: Irvine 唯一的大型游戏公司（经济系统/商业化/数据岗）。未验证。
+
+  whatnot:
+    name: Whatnot
+    tier: 2
+    category: marketplace
+    hq: Los Angeles, CA
+    ats: {type: ashby, org: whatnot}
+    verified: false
+    careers_url: https://www.whatnot.com/careers
+    notes: 收藏品直播拍卖市场，和 CS2 饰品交易逻辑最像。ATS 是猜测，先 check。
+
+  goat:
+    name: GOAT Group
+    tier: 3
+    category: marketplace
+    hq: Culver City, CA
+    ats: {type: greenhouse, token: goatgroup}
+    verified: false
+    careers_url: https://www.goat.com/careers
+    notes: 球鞋二级市场（定价/供需）。ATS 是猜测。
+
+  collectors:
+    name: Collectors (PSA / PCGS)
+    tier: 3
+    category: marketplace
+    hq: Santa Ana, CA
+    ats: {type: manual}
+    verified: false
+    careers_url: https://www.collectors.com
+    notes: 收藏品评级/交易，未验证。
+
+  # ------------------------------------------------------------ 加州其他地区（湾区 / 圣地亚哥）
+  voleon:
+    name: The Voleon Group
+    tier: 2
+    category: quant_hedge_fund
+    hq: Berkeley, CA
+    ats: {type: ashby, org: voleon}
+    verified: true
+    careers_url: https://jobs.ashbyhq.com/voleon
+    notes: 机器学习量化基金，有 2026 University Hire SWE（$160-190K），Python/Go/C++。
+
+  headlands:
+    name: Headlands Technologies
+    tier: 2
+    category: prop_trading
+    hq: San Francisco, CA
+    ats: {type: greenhouse, token: headlandstechnologiesllc}
+    verified: true
+    careers_url: https://job-boards.greenhouse.io/headlandstechnologiesllc
+    notes: 做市/高频，有 New Grad C++ 岗（要 C++）。新人岗在 SF 还是 Chicago 需确认。
+
+  blackrock:
+    name: BlackRock
+    tier: 2
+    category: asset_manager
+    hq: San Francisco (Aladdin) / Santa Monica
+    ats: {type: workday, host: blackrock.wd1.myworkdayjobs.com, tenant: blackrock, site: BlackRock_Professional}
+    search_terms: [San Francisco, Santa Monica]
+    verified: true
+    careers_url: https://careers.blackrock.com
+    notes: Aladdin 工程（Java 全栈）+ 系统化研究。职位极多，用 search_terms 缩小范围。
+
+  dodge_cox:
+    name: Dodge & Cox
+    tier: 3
+    category: asset_manager
+    hq: San Francisco, CA
+    ats: {type: workday, host: dodgeandcox.wd5.myworkdayjobs.com, tenant: dodgeandcox, site: Dodgecox}
+    verified: true
+    careers_url: https://www.dodgeandcox.com
+    notes: 小而精的资管，新人技术岗少。
+
+  intuit:
+    name: Intuit (San Diego)
+    tier: 3
+    category: fintech
+    hq: San Diego + Mountain View
+    ats: {type: manual}
+    verified: false
+    careers_url: https://jobs.intuit.com
+    notes: 圣地亚哥有大园区，历史上新人岗多（未验证 2026）。
+
+  lpl:
+    name: LPL Financial
+    tier: 3
+    category: broker_dealer
+    hq: San Diego, CA
+    ats: {type: manual}
+    verified: false
+    careers_url: https://www.lpl.com
+    notes: 券商平台，圣地亚哥有大办公室（未验证）。
+
+  robinhood:
+    name: Robinhood
+    tier: 2
+    category: fintech
+    hq: Menlo Park, CA
+    ats: {type: greenhouse, token: robinhood}
+    verified: false
+    careers_url: https://careers.robinhood.com
+    notes: 券商/交易平台，历史上有新人 SWE。ATS 是猜测，先 check。
+
+  coinbase:
+    name: Coinbase
+    tier: 2
+    category: crypto
+    hq: Remote-first
+    ats: {type: greenhouse, token: coinbase}
+    verified: false
+    careers_url: https://www.coinbase.com/careers
+    notes: 远程优先（人在加州可做）。ATS 是猜测，先 check。
+
+  stripe:
+    name: Stripe
+    tier: 3
+    category: payments
+    hq: South San Francisco, CA
+    ats: {type: greenhouse, token: stripe}
+    verified: false
+    careers_url: https://stripe.com/jobs
+    notes: 支付，历史上每年有 New Grad。ATS 是猜测。
+
+  kalshi:
+    name: Kalshi
+    tier: 3
+    category: prediction_market
+    hq: New York (remote roles?)
+    ats: {type: ashby, org: kalshi}
+    verified: false
+    careers_url: https://kalshi.com/careers
+    notes: 预测市场（合规交易所）。是否招加州远程未验证。
+
+  polymarket:
+    name: Polymarket
+    tier: 3
+    category: prediction_market
+    hq: New York (remote roles?)
+    ats: {type: ashby, org: polymarket}
+    verified: false
+    careers_url: https://polymarket.com
+    notes: 预测市场。ATS 是猜测。
+
+  citadel:
+    name: Citadel / Citadel Securities (SF office)
+    tier: 3
+    category: quant_hedge_fund
+    hq: San Francisco office
+    ats: {type: manual}
+    verified: false
+    careers_url: https://www.citadel.com/careers/
+    notes: 顶级门槛；新人岗通常在 NY/Miami/Chicago。放在这里当冲刺目标。
