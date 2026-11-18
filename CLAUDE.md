@@ -13,6 +13,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 - [SKILL_GAP_PLAN.md](./docs/SKILL_GAP_PLAN.md) — 技能差距与补强作品
 - [PROJECT_PACKAGING.md](./docs/PROJECT_PACKAGING.md) — 项目讲法、不能上简历的说法、安全清单
 - [VISA_NOTES.md](./docs/VISA_NOTES.md) — 签证现状（有时效，改动前先核实）
+- [OPT_SELF_EMPLOYMENT.md](./docs/OPT_SELF_EMPLOYMENT.md) — OPT 期间自雇停失业计时、Irvine 营业执照填表对照、给本地 Claude 的操作说明（个人信息在 `private/opt_status.md`）
 - [PIPELINE.md](./docs/PIPELINE.md) — 工具架构
 - [PROJECT_STATUS.md](./docs/PROJECT_STATUS.md) — 里程碑与下一步
 

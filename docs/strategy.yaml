@@ -201,7 +201,7 @@ visa:
     - {title: 失业上限 90 天（加 STEM 共 150 天）, status: in_effect, meaning: 从 EAD 生效日开始计}
     - {title: STEM OPT 要求 E-Verify 雇主 + I-983, status: in_effect, meaning: 优先投 E-Verify 雇主}
     - {title: 取消 duration of status 的新规, status: blocked, meaning: 2026-09-14 被全国禁令叫停，旧规则继续}
-    - {title: OPT 收费提案, status: pre_proposal, meaning: 已过白宫审查，金额未公布}
+    - {title: OPT 收费提案, status: proposed, meaning: 2026-10-08 发布；首次 OPT $70K、之后（含 STEM）$30K，由学校交但可转嫁；评论期已截止，未生效}
     - {title: $100K H-1B 总统公告, status: blocked, meaning: 执行被撤销；从未适用于境内 F-1 转 H-1B}
     - {title: "每个 cap H-1B 申请加收 $103,265", status: proposed, meaning: 最大变数；落地后 F-1 转 H-1B 也要交}
     - {title: H-1B 按工资级别加权抽签, status: in_effect, meaning: 高薪岗位中签率更高}
@@ -217,4 +217,6 @@ visa:
     - {date: 2026-09-11, note: OPT 收费提案过白宫审查}
     - {date: 2026-09-14, note: duration of status 新规被叫停}
     - {date: 2026-09-24, note: $103K 提案评论期截止}
+    - {date: 2026-10-08, note: OPT 收费提案发布（首次 $70K / 之后 $30K）}
+    - {date: 2026-11-09, note: OPT 收费提案评论期截止}
     - {date: 2027-03-10, note: FY2028 H-1B 注册（预计 3 月）}
